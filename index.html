@@ -251,7 +251,7 @@
         <div id="ajustes-tab" style="display: none;">
             <h3 style="color: #bcaaa4; margin-top: 0;">⚙️ Configuración del Reino</h3>
             
-            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4><p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.42 (Tiempos Reales)</p></div>
+            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4><p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.43 (Mundo Expandido)</p></div>
             <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">Sello de Identidad</h4><input type="text" id="nuevo-nombre-aldea" placeholder="Renombrar provincia"><button id="btn-renombrar" class="btn-naranja">Grabar Nuevo Nombre</button></div>
             <div class="seccion-panel"><button id="btn-logout" class="btn-gris">Dormir (Cerrar Sesión)</button></div>
             
@@ -463,7 +463,6 @@
                 onValue(ref(db, 'usuarios/' + miUid), (snap) => {
                     const d = snap.val(); if(!d) return;
 
-                    // ====== SISTEMA DE BANEO ======
                     if (d.baneado === true) {
                         document.getElementById('game-section').style.display = 'none';
                         document.getElementById('ban-section').style.display = 'block';
@@ -504,7 +503,6 @@
                         galeria: d.nivel_galeria || 0, establo: d.nivel_establo || 0, academia: d.nivel_academia || 0, muralla: d.nivel_muralla || 0 
                     };
                     
-                    // Ajuste Económico
                     prod.m = niv.aserradero * 0.5;
                     prod.h = niv.mina * 0.25;
                     prod.c = niv.granja * 1;
@@ -556,17 +554,8 @@
             document.getElementById('c-m-est').innerText = (niv.establo + 1) * 200; document.getElementById('c-h-est').innerText = (niv.establo + 1) * 200;
             document.getElementById('c-m-aca').innerText = (niv.academia + 1) * 400; document.getElementById('c-h-aca').innerText = (niv.academia + 1) * 400;
 
-            // Tiempos Exponenciales Lentos (Nuevos multiplicadores para el MMORTS Lento)
-            const tAse = Math.floor(300 * Math.pow(1.5, niv.aserradero)); 
-            const tMin = Math.floor(300 * Math.pow(1.5, niv.mina)); 
-            const tGra = Math.floor(300 * Math.pow(1.5, niv.granja)); 
-            const tAlm = Math.floor(300 * Math.pow(1.5, niv.almacen)); 
-            const tMer = Math.floor(300 * Math.pow(1.5, niv.mercado)); 
-            const tMur = Math.floor(600 * Math.pow(1.5, niv.muralla));
-            const tCua = Math.floor(600 * Math.pow(1.5, niv.cuartel)); 
-            const tGal = Math.floor(600 * Math.pow(1.5, niv.galeria)); 
-            const tEst = Math.floor(900 * Math.pow(1.5, niv.establo)); 
-            const tAca = Math.floor(1800 * Math.pow(1.5, niv.academia));
+            const tAse = Math.floor(60 * Math.pow(1.4, niv.aserradero)); const tMin = Math.floor(60 * Math.pow(1.4, niv.mina)); const tGra = Math.floor(60 * Math.pow(1.4, niv.granja)); const tAlm = Math.floor(60 * Math.pow(1.4, niv.almacen)); const tMer = Math.floor(60 * Math.pow(1.4, niv.mercado)); const tMur = Math.floor(90 * Math.pow(1.4, niv.muralla));
+            const tCua = Math.floor(90 * Math.pow(1.4, niv.cuartel)); const tGal = Math.floor(90 * Math.pow(1.4, niv.galeria)); const tEst = Math.floor(120 * Math.pow(1.4, niv.establo)); const tAca = Math.floor(180 * Math.pow(1.4, niv.academia));
             
             document.getElementById('t-ase').innerText = tAse; document.getElementById('t-min').innerText = tMin; document.getElementById('t-gra').innerText = tGra; document.getElementById('t-alm').innerText = tAlm; document.getElementById('t-mer').innerText = tMer; document.getElementById('t-mur').innerText = tMur;
             document.getElementById('t-cua').innerText = tCua; document.getElementById('t-gal').innerText = tGal; document.getElementById('t-est').innerText = tEst; document.getElementById('t-aca').innerText = tAca;
@@ -578,16 +567,8 @@
             document.getElementById('panel-comercio').style.display = niv.mercado > 0 ? "block" : "none";
 
             const uis = [
-                {idBase: 'ase', nivelActual: niv.aserradero, maxNivel: MAX_ECO, idBoton: 'btn-up-aserradero', idTexto: 'txt-aserradero'}, 
-                {idBase: 'min', nivelActual: niv.mina, maxNivel: MAX_ECO, idBoton: 'btn-up-mina', idTexto: 'txt-mina'}, 
-                {idBase: 'gra', nivelActual: niv.granja, maxNivel: MAX_ECO, idBoton: 'btn-up-granja', idTexto: 'txt-granja'}, 
-                {idBase: 'alm', nivelActual: niv.almacen, maxNivel: MAX_ECO, idBoton: 'btn-up-almacen', idTexto: 'txt-almacen'}, 
-                {idBase: 'mer', nivelActual: niv.mercado, maxNivel: MAX_ECO, idBoton: 'btn-up-mercado', idTexto: 'txt-mercado'},
-                {idBase: 'mur', nivelActual: niv.muralla, maxNivel: MAX_MIL, idBoton: 'btn-up-muralla', idTexto: 'txt-muralla'}, 
-                {idBase: 'cua', nivelActual: niv.cuartel, maxNivel: MAX_MIL, idBoton: 'btn-up-cuartel', idTexto: 'txt-cuartel'}, 
-                {idBase: 'gal', nivelActual: niv.galeria, maxNivel: MAX_MIL, idBoton: 'btn-up-galeria', idTexto: 'txt-galeria'}, 
-                {idBase: 'est', nivelActual: niv.establo, maxNivel: MAX_MIL, idBoton: 'btn-up-establo', idTexto: 'txt-establo'}, 
-                {idBase: 'aca', nivelActual: niv.academia, maxNivel: MAX_MIL, idBoton: 'btn-up-academia', idTexto: 'txt-academia'}
+                {idBase: 'ase', nivelActual: niv.aserradero, maxNivel: MAX_ECO, idBoton: 'btn-up-aserradero', idTexto: 'txt-aserradero'}, {idBase: 'min', nivelActual: niv.mina, maxNivel: MAX_ECO, idBoton: 'btn-up-mina', idTexto: 'txt-mina'}, {idBase: 'gra', nivelActual: niv.granja, maxNivel: MAX_ECO, idBoton: 'btn-up-granja', idTexto: 'txt-granja'}, {idBase: 'alm', nivelActual: niv.almacen, maxNivel: MAX_ECO, idBoton: 'btn-up-almacen', idTexto: 'txt-almacen'}, {idBase: 'mer', nivelActual: niv.mercado, maxNivel: MAX_ECO, idBoton: 'btn-up-mercado', idTexto: 'txt-mercado'},
+                {idBase: 'mur', nivelActual: niv.muralla, maxNivel: MAX_MIL, idBoton: 'btn-up-muralla', idTexto: 'txt-muralla'}, {idBase: 'cua', nivelActual: niv.cuartel, maxNivel: MAX_MIL, idBoton: 'btn-up-cuartel', idTexto: 'txt-cuartel'}, {idBase: 'gal', nivelActual: niv.galeria, maxNivel: MAX_MIL, idBoton: 'btn-up-galeria', idTexto: 'txt-galeria'}, {idBase: 'est', nivelActual: niv.establo, maxNivel: MAX_MIL, idBoton: 'btn-up-establo', idTexto: 'txt-establo'}, {idBase: 'aca', nivelActual: niv.academia, maxNivel: MAX_MIL, idBoton: 'btn-up-academia', idTexto: 'txt-academia'}
             ];
             
             uis.forEach(edificio => {
@@ -596,27 +577,12 @@
                 else { boton.disabled = edificio.nivelActual >= edificio.maxNivel; texto.innerText = edificio.nivelActual === 0 ? "Construir" : (edificio.nivelActual >= edificio.maxNivel ? "Máximo" : "Mejorar"); }
             });
 
-            document.getElementById('btn-up-almacen').onclick = () => { procesarCompraConstruccion('alm', cAlm, cAlmH, 0, tAlm); }; 
-            document.getElementById('btn-up-aserradero').onclick = () => { procesarCompraConstruccion('ase', cAse, 0, 0, tAse); }; 
-            document.getElementById('btn-up-mina').onclick = () => { procesarCompraConstruccion('min', cMin, 0, 0, tMin); }; 
-            document.getElementById('btn-up-granja').onclick = () => { procesarCompraConstruccion('gra', cGraM, cGraH, 0, tGra); }; 
-            document.getElementById('btn-up-mercado').onclick = () => { procesarCompraConstruccion('mer', cMerM, cMerH, 0, tMer); }; 
-            document.getElementById('btn-up-muralla').onclick = () => { procesarCompraConstruccion('mur', cMurM, cMurH, 0, tMur); };
-            document.getElementById('btn-up-cuartel').onclick = () => { procesarCompraConstruccion('cua', (niv.cuartel + 1) * 100, (niv.cuartel + 1) * 50, 0, tCua); }; 
-            document.getElementById('btn-up-galeria').onclick = () => { procesarCompraConstruccion('gal', (niv.galeria + 1) * 150, (niv.galeria + 1) * 100, 0, tGal); }; 
-            document.getElementById('btn-up-establo').onclick = () => { procesarCompraConstruccion('est', (niv.establo + 1) * 200, (niv.establo + 1) * 200, 0, tEst); }; 
-            document.getElementById('btn-up-academia').onclick = () => { procesarCompraConstruccion('aca', (niv.academia + 1) * 400, (niv.academia + 1) * 400, 0, tAca); };
+            document.getElementById('btn-up-almacen').onclick = () => { procesarCompraConstruccion('alm', cAlm, cAlmH, 0, tAlm); }; document.getElementById('btn-up-aserradero').onclick = () => { procesarCompraConstruccion('ase', cAse, 0, 0, tAse); }; document.getElementById('btn-up-mina').onclick = () => { procesarCompraConstruccion('min', cMin, 0, 0, tMin); }; document.getElementById('btn-up-granja').onclick = () => { procesarCompraConstruccion('gra', cGraM, cGraH, 0, tGra); }; document.getElementById('btn-up-mercado').onclick = () => { procesarCompraConstruccion('mer', cMerM, cMerH, 0, tMer); }; document.getElementById('btn-up-muralla').onclick = () => { procesarCompraConstruccion('mur', cMurM, cMurH, 0, tMur); };
+            document.getElementById('btn-up-cuartel').onclick = () => { procesarCompraConstruccion('cua', (niv.cuartel + 1) * 100, (niv.cuartel + 1) * 50, 0, tCua); }; document.getElementById('btn-up-galeria').onclick = () => { procesarCompraConstruccion('gal', (niv.galeria + 1) * 150, (niv.galeria + 1) * 100, 0, tGal); }; document.getElementById('btn-up-establo').onclick = () => { procesarCompraConstruccion('est', (niv.establo + 1) * 200, (niv.establo + 1) * 200, 0, tEst); }; document.getElementById('btn-up-academia').onclick = () => { procesarCompraConstruccion('aca', (niv.academia + 1) * 400, (niv.academia + 1) * 400, 0, tAca); };
 
-            // Tiempos Base de Entrenamiento
-            const tiempoLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tiempoArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tiempoCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tiempoEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            const tiempoLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); const tiempoArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1)))); const tiempoCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); const tiempoEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
-            document.getElementById('btn-rec-lancero').onclick = () => { procesarCompraEntrenamiento('lan', 50 * mult, 30 * mult, 10 * mult, tiempoLan * mult, mult); };
-            document.getElementById('btn-rec-arquero').onclick = () => { procesarCompraEntrenamiento('arq', 70 * mult, 40 * mult, 20 * mult, tiempoArq * mult, mult); };
-            document.getElementById('btn-rec-caballo').onclick = () => { procesarCompraEntrenamiento('cab', 100 * mult, 80 * mult, 50 * mult, tiempoCab * mult, mult); };
-            document.getElementById('btn-rec-elite').onclick = () => { procesarCompraEntrenamiento('eli', 200 * mult, 150 * mult, 100 * mult, tiempoEli * mult, mult); };
+            document.getElementById('btn-rec-lancero').onclick = () => { procesarCompraEntrenamiento('lan', 50 * mult, 30 * mult, 10 * mult, tiempoLan * mult, mult); }; document.getElementById('btn-rec-arquero').onclick = () => { procesarCompraEntrenamiento('arq', 70 * mult, 40 * mult, 20 * mult, tiempoArq * mult, mult); }; document.getElementById('btn-rec-caballo').onclick = () => { procesarCompraEntrenamiento('cab', 100 * mult, 80 * mult, 50 * mult, tiempoCab * mult, mult); }; document.getElementById('btn-rec-elite').onclick = () => { procesarCompraEntrenamiento('eli', 200 * mult, 150 * mult, 100 * mult, tiempoEli * mult, mult); };
         }
 
         // 8. FUNCIONES DE GASTO
@@ -651,25 +617,15 @@
         }
 
         document.getElementById('btn-trade').onclick = () => {
-            const recursoPago = document.getElementById('trade-from').value;
-            const recursoRecibe = document.getElementById('trade-to').value;
-            const cantidadStr = document.getElementById('trade-amount').value;
-            const cantidadAPagar = parseInt(cantidadStr);
-            
+            const recursoPago = document.getElementById('trade-from').value; const recursoRecibe = document.getElementById('trade-to').value; const cantidadStr = document.getElementById('trade-amount').value; const cantidadAPagar = parseInt(cantidadStr);
             if (recursoPago === recursoRecibe) return mostrarAviso("El mercader te mira confuso. No puedes cambiar un material por sí mismo.");
             if (!cantidadAPagar || cantidadAPagar <= 0 || cantidadAPagar % 2 !== 0) return mostrarAviso("El trato exige un número par. La tasa real es 2 a 1.");
-            
-            let charPago = recursoPago.charAt(0); 
-            let charRecibe = recursoRecibe.charAt(0);
-
+            let charPago = recursoPago.charAt(0); let charRecibe = recursoRecibe.charAt(0);
             if (currentRes[charPago] < cantidadAPagar) return mostrarAviso(`No posees suficiente ${recursoPago} para sellar el trato.`);
-            
             const gananciaReal = cantidadAPagar / 2;
             if (currentRes[charRecibe] + gananciaReal > limit) return mostrarAviso(`Tus almacenes se desbordan. No puedes recibir ${gananciaReal} de ${recursoRecibe}.`);
 
-            baseRes[charPago] = currentRes[charPago] - cantidadAPagar;
-            baseRes[charRecibe] = currentRes[charRecibe] + gananciaReal;
-            baseTs = Date.now();
+            baseRes[charPago] = currentRes[charPago] - cantidadAPagar; baseRes[charRecibe] = currentRes[charRecibe] + gananciaReal; baseTs = Date.now();
 
             update(ref(db, 'usuarios/' + miUid), { madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, ultima_actualizacion: baseTs }).then(() => { 
                 mostrarAviso(`⚖️ Comercio sellado:\nHas entregado ${cantidadAPagar} ${recursoPago}.\nHas recibido ${gananciaReal} ${recursoRecibe}.`); 
@@ -684,15 +640,10 @@
             const ahora = Date.now(); 
             const seg = (ahora - baseTs) / 1000;
             
-            currentRes.m = Math.min(baseRes.m + (seg * prod.m), limit); 
-            currentRes.h = Math.min(baseRes.h + (seg * prod.h), limit); 
-            currentRes.c = Math.min(baseRes.c + (seg * prod.c), limit);
+            currentRes.m = Math.min(baseRes.m + (seg * prod.m), limit); currentRes.h = Math.min(baseRes.h + (seg * prod.h), limit); currentRes.c = Math.min(baseRes.c + (seg * prod.c), limit);
             
-            document.getElementById('val-madera').innerText = Math.floor(currentRes.m); 
-            document.getElementById('val-hierro').innerText = Math.floor(currentRes.h); 
-            document.getElementById('val-comida').innerText = Math.floor(currentRes.c);
+            document.getElementById('val-madera').innerText = Math.floor(currentRes.m); document.getElementById('val-hierro').innerText = Math.floor(currentRes.h); document.getElementById('val-comida').innerText = Math.floor(currentRes.c);
 
-            // Construcción Activa
             const pConstruccion = document.getElementById('txt-construyendo');
             if (upg.b !== "") {
                 pConstruccion.style.display = 'block';
@@ -708,36 +659,20 @@
                 }
             } else { pConstruccion.style.display = 'none'; }
 
-            // Entrenamiento Activo
-            const tLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            const tLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); const tArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1)))); const tCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); const tEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
             function procQ(tipo, tFin, cant, idBoton, tBase, rM, rH, rC, nomTropa) {
                 const b = document.getElementById(idBoton);
                 if (tFin > 0) {
                     if (ahora >= tFin) {
-                        if (tipo === 'lan') { tropas.lanceros += cant; ent.lan = 0; } 
-                        if (tipo === 'arq') { tropas.arqueros += cant; ent.arq = 0; }
-                        if (tipo === 'cab') { tropas.caballos += cant; ent.cab = 0; } 
-                        if (tipo === 'eli') { tropas.elite += cant; ent.eli = 0; }
+                        if (tipo === 'lan') { tropas.lanceros += cant; ent.lan = 0; } if (tipo === 'arq') { tropas.arqueros += cant; ent.arq = 0; } if (tipo === 'cab') { tropas.caballos += cant; ent.cab = 0; } if (tipo === 'eli') { tropas.elite += cant; ent.eli = 0; }
                         update(ref(db, 'usuarios/' + miUid), { lanceros: tropas.lanceros, arqueros: tropas.arqueros, caballos: tropas.caballos, elite: tropas.elite, entr_lan: ent.lan, entr_arq: ent.arq, entr_cab: ent.cab, entr_eli: ent.eli });
-                    } else { 
-                        b.innerText = `⏳ ${cant}x... ${Math.ceil((tFin - ahora) / 1000)}s`; b.disabled = true; 
-                    }
-                } else { 
-                    b.innerText = `Reclutar ${mult} ${nomTropa} (${rM * mult}🪵 ${rH * mult}⛏️ ${rC * mult}🌾) - ⏱️ ${tBase * mult}s`; 
-                    if(upg.b === "") b.disabled = false; 
-                }
+                    } else { b.innerText = `⏳ ${cant}x... ${Math.ceil((tFin - ahora) / 1000)}s`; b.disabled = true; }
+                } else { b.innerText = `Reclutar ${mult} ${nomTropa} (${rM * mult}🪵 ${rH * mult}⛏️ ${rC * mult}🌾) - ⏱️ ${tBase * mult}s`; if(upg.b === "") b.disabled = false; }
             }
 
-            procQ('lan', ent.lan, ent.lan_q, 'btn-rec-lancero', tLan, 50, 30, 10, 'Lan'); 
-            procQ('arq', ent.arq, ent.arq_q, 'btn-rec-arquero', tArq, 70, 40, 20, 'Arq');
-            procQ('cab', ent.cab, ent.cab_q, 'btn-rec-caballo', tCab, 100, 80, 50, 'Cab'); 
-            procQ('eli', ent.eli, ent.eli_q, 'btn-rec-elite', tEli, 200, 150, 100, 'Éli');
+            procQ('lan', ent.lan, ent.lan_q, 'btn-rec-lancero', tLan, 50, 30, 10, 'Lan'); procQ('arq', ent.arq, ent.arq_q, 'btn-rec-arquero', tArq, 70, 40, 20, 'Arq'); procQ('cab', ent.cab, ent.cab_q, 'btn-rec-caballo', tCab, 100, 80, 50, 'Cab'); procQ('eli', ent.eli, ent.eli_q, 'btn-rec-elite', tEli, 200, 150, 100, 'Éli');
 
-            // Movimiento y Combate
             const pMovimiento = document.getElementById('panel-movimiento');
             if (mov.est !== "") {
                 pMovimiento.style.display = 'block';
@@ -746,15 +681,13 @@
                 if (ahora >= mov.fin) {
                     if (mov.est === "ida") {
                         mov.est = "procesando"; 
-                        
                         const miFuerza = (mov.lan * STATS.lan.f) + (mov.arq * STATS.arq.f) + (mov.cab * STATS.cab.f) + (mov.eli * STATS.eli.f);
                         const rutaEnemiga = mov.isR ? ref(db, 'ruinas/' + mov.oId) : ref(db, 'usuarios/' + mov.oId);
                         
                         get(rutaEnemiga).then((snapEnemigo) => {
                             if (!snapEnemigo.exists()) { update(ref(db, 'usuarios/' + miUid), { mov_est: "vuelta", mov_fin: Date.now() + 15000 }); return; }
                             
-                            const dE = snapEnemigo.val();
-                            let fE = 0, mE = 0, hE = 0, cE = 0;
+                            const dE = snapEnemigo.val(); let fE = 0, mE = 0, hE = 0, cE = 0;
                             
                             if (mov.isR) {
                                 const segR = (ahora - dE.ua) / 1000;
@@ -771,9 +704,7 @@
                                 const sL = Math.ceil(mov.lan * (1 - rSup)); const sA = Math.ceil(mov.arq * (1 - rSup)); const sC = Math.ceil(mov.cab * (1 - rSup)); const sE = Math.ceil(mov.eli * (1 - rSup));
                                 const capTot = (sL * STATS.lan.c) + (sA * STATS.arq.c) + (sC * STATS.cab.c) + (sE * STATS.eli.c);
                                 
-                                let bM = Math.min(Math.floor(mE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); 
-                                let bH = Math.min(Math.floor(hE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); 
-                                let bC = Math.min(Math.floor(cE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3));
+                                let bM = Math.min(Math.floor(mE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); let bH = Math.min(Math.floor(hE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); let bC = Math.min(Math.floor(cE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3));
                                 
                                 let penE = { ua: Date.now() }; 
                                 if (mov.isR) { penE.m = Math.max(0, mE - bM); penE.h = Math.max(0, hE - bH); penE.c = Math.max(0, cE - bC); } 
@@ -800,29 +731,45 @@
                         });
                     } else if (mov.est === "vuelta") {
                         mov.est = "procesando"; 
-                        
                         const bM = mov.bM; const bH = mov.bH; const bC = mov.bC;
                         baseRes.m = currentRes.m + bM; baseRes.h = currentRes.h + bH; baseRes.c = currentRes.c + bC;
                         baseTs = Date.now();
-
-                        update(ref(db, 'usuarios/' + miUid), { 
-                            madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, 
-                            lanceros: tropas.lanceros + mov.lan, arqueros: tropas.arqueros + mov.arq, caballos: tropas.caballos + mov.cab, elite: tropas.elite + mov.eli, 
-                            mov_est: "", mov_fin: 0, mov_bM: 0, mov_bH: 0, mov_bC: 0, mov_lan: 0, mov_arq: 0, mov_cab: 0, mov_eli: 0, ultima_actualizacion: baseTs 
-                        });
-                        
+                        update(ref(db, 'usuarios/' + miUid), { madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, lanceros: tropas.lanceros + mov.lan, arqueros: tropas.arqueros + mov.arq, caballos: tropas.caballos + mov.cab, elite: tropas.elite + mov.eli, mov_est: "", mov_fin: 0, mov_bM: 0, mov_bH: 0, mov_bC: 0, mov_lan: 0, mov_arq: 0, mov_cab: 0, mov_eli: 0, ultima_actualizacion: baseTs });
                         mostrarAviso(`🎉 ¡Regreso triunfal!\n🪵 +${bM} | ⛏️ +${bH} | 🌾 +${bC}`);
                     }
-                } else { 
-                    if (mov.est !== "procesando") {
-                        document.getElementById('txt-mov-tiempo').innerText = Math.ceil((mov.fin - ahora) / 1000) + 's'; 
-                    }
-                }
+                } else { if (mov.est !== "procesando") { document.getElementById('txt-mov-tiempo').innerText = Math.ceil((mov.fin - ahora) / 1000) + 's'; } }
             } else { pMovimiento.style.display = 'none'; }
         }
 
-        // 10. MAPA Y ATAQUE (Mundo 500x500 con tiempo realista)
+        // ==========================================
+        // 10. REPARADOR DE RUINAS, MAPA Y ATAQUE 
+        // ==========================================
+        
+        // ¡PARCHE PARA LAS RUINAS ESTANCADAS!
+        function initRuinasSiNoExisten() {
+            get(ref(db, 'ruinas')).then(snap => {
+                if(!snap.exists()) {
+                    let nuevasRuinas = {};
+                    for(let i=1; i<=15; i++) nuevasRuinas['ruina_'+i] = { x: Math.floor(Math.random() * 500) + 1, y: Math.floor(Math.random() * 500) + 1, m: 1000, h: 1000, c: 1000, ua: Date.now() };
+                    set(ref(db, 'ruinas'), nuevasRuinas);
+                } else {
+                    let updates = {};
+                    let reubicar = false;
+                    snap.forEach(hijo => {
+                        let r = hijo.val();
+                        // Si están estancadas en el cuadrante antiguo de 100x100, las reubicamos
+                        if(r.x <= 100 && r.y <= 100) {
+                            updates[hijo.key] = { ...r, x: Math.floor(Math.random() * 500) + 1, y: Math.floor(Math.random() * 500) + 1 };
+                            reubicar = true;
+                        }
+                    });
+                    if(reubicar) update(ref(db, 'ruinas'), updates);
+                }
+            });
+        }
+
         function cargarMapa() {
+            initRuinasSiNoExisten();
             const listaDiv = document.getElementById('lista-jugadores'); const visualDiv = document.getElementById('mapa-visual');
             listaDiv.innerHTML = "<p>Enviando exploradores...</p>"; visualDiv.innerHTML = "";
             
@@ -870,11 +817,8 @@
             objId = idEnemigo; objN = nombreEnemigo; objR = esRuin;
             
             const distanciaCalculada = Math.sqrt(Math.pow(xEnemigo - miX, 2) + Math.pow(yEnemigo - miY, 2));
-            
-            // ================== NUEVO: 1 MINUTO POR PUNTO DE DISTANCIA ==================
             tViaje = Math.max(60, Math.floor(distanciaCalculada * 60));
-            // ============================================================================
-
+            
             document.getElementById('modal-nombre-enemigo').innerText = "Declarar Guerra: " + nombreEnemigo; document.getElementById('modal-tiempo').innerText = tViaje; document.getElementById('modal-distancia').innerText = Math.floor(distanciaCalculada);
             document.getElementById('max-lan').innerText = tropas.lanceros; document.getElementById('send-lan').max = tropas.lanceros; document.getElementById('send-lan').value = 0;
             document.getElementById('max-arq').innerText = tropas.arqueros; document.getElementById('send-arq').max = tropas.arqueros; document.getElementById('send-arq').value = 0;
