@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luminescent Tales</title>
+    <style>
+        /* ================= ESTÉTICA ANTIGUA Y MEDIEVAL ================= */
+        body { 
+            background: #2b1d14; 
+            color: #f4eadd; 
+            font-family: 'Georgia', 'Book Antiqua', 'Palatino', serif; 
+            text-align: center; margin: 0; padding: 10px; font-size: 14px; 
+            background-image: radial-gradient(circle at center, #3e2723 0%, #1a120b 100%);
+            min-height: 100vh;
+        }
+        h2, h3, h4 {
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            text-shadow: 1px 1px 2px #000;
+        }
+        .panel { 
+            background: #4e342e; 
+            border: 3px solid #b08d57; 
+            padding: 15px; 
+            margin: 5px auto; 
+            border-radius: 4px; 
+            max-width: 400px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .recursos-barra, .tropas-barra, .nav-barra { 
+            display: flex; justify-content: space-around; padding: 10px; 
+            border-radius: 3px; margin-bottom: 10px; flex-wrap: wrap; 
+            border: 1px solid #3e2723;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+        }
+        .recursos-barra { background: #2c3e20; font-size: 13px; } 
+        .tropas-barra { background: #5c1e1e; font-size: 12px; } 
+        .nav-barra { background: #1a120b; padding: 5px; }
+        
+        .item-barra { font-weight: bold; color: #f4eadd; margin: 2px 5px; }
+        .limite-texto { font-size: 10px; color: #bcaaa4; font-weight: normal; } 
+        
+        .edificio-panel, .militar-panel, .peligro-panel, .seccion-panel, .jugador-card, .marcha-panel, .informe-card { 
+            background: #3e2723; padding: 10px; border-radius: 3px; margin-top: 10px; text-align: left; 
+            border: 2px solid #5d4037;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .edificio-panel { border-color: #8d6e63; }
+        .militar-panel { border-color: #b71c1c; }
+        .seccion-panel { border-color: #b08d57; }
+        .peligro-panel { border-color: #ff0000; background: #260e0e; } 
+        .jugador-card { border-color: #fbc02d; margin-bottom: 10px; background: #4e342e;}
+        .marcha-panel { border: 2px dashed #f39c12; background: #292419; margin-bottom: 15px; }
+        .informe-card { border-left: 5px solid #b08d57; margin-bottom: 10px; font-size: 13px; background: #4e342e;}
+        .informe-vic { border-left-color: #2e7d32; }
+        .informe-der { border-left-color: #c62828; }
+        
+        input, select { 
+            width: 85%; padding: 10px; margin: 5px 0; border-radius: 2px; border: 1px solid #b08d57; 
+            box-sizing: border-box; background: #f4eadd; color: #2b1d14; font-family: 'Georgia', serif; font-weight: bold;
+        }
+        button { 
+            border: 1px solid #1a120b; padding: 8px 15px; margin-top: 5px; color: #f4eadd; font-weight: bold; 
+            border-radius: 2px; cursor: pointer; width: 100%; transition: 0.2s; box-sizing: border-box; 
+            font-family: 'Georgia', serif; text-shadow: 1px 1px 1px #000;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.5);
+        }
+        button:active { transform: translateY(2px); box-shadow: none; }
+        button:disabled { background: #5d4037 !important; color: #bcaaa4 !important; cursor: not-allowed; border-color: #3e2723; text-shadow: none; }
+        
+        .btn-naranja { background: #c27a27; } 
+        .btn-verde { background: #3c5c24; } 
+        .btn-azul { background: #2c4463; } 
+        .btn-rojo { background: #8b1c1c; } 
+        .btn-negro { background: #1a120b; color: #e74c3c; border: 1px solid #e74c3c; }
+        .btn-gris { background: #5d4037; } 
+        
+        .btn-nav { background: transparent; border: 1px solid #5d4037; width: 30%; margin-bottom: 5px; font-size: 11px; padding: 8px 0; color: #b08d57; }
+        .btn-mult { background: transparent; border: 1px solid #b08d57; width: 40px; margin: 0 5px; padding: 5px; cursor: pointer; border-radius: 2px; }
+        .btn-mult-activo { background: #b08d57; color: #1a120b; font-weight: bold; text-shadow: none; }
+        
+        .info-prod { font-size: 11px; color: #d7ccc8; margin: 3px 0; font-style: italic; }
+        .titulo-edificio { margin: 0; font-size: 15px; color: #ffeb3b; }
+        .guardado-toast { font-size: 10px; color: #8bc34a; margin-top: 10px; display: none; font-style: italic; }
+        
+        .contenedor-mapa { 
+            position: relative; width: 100%; aspect-ratio: 1 / 1; background: #c2b280; border: 4px solid #5d4037; 
+            border-radius: 2px; margin-bottom: 15px; overflow: hidden; 
+            background-image: 
+                linear-gradient(rgba(93,64,55,0.2) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(93,64,55,0.2) 1px, transparent 1px); 
+            background-size: 10% 10%; 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        .aldea-pin { 
+            position: absolute; width: 14px; height: 14px; background: #c62828; border: 2px solid #fff; 
+            border-radius: 50%; transform: translate(-50%, -50%); cursor: pointer; box-shadow: 1px 1px 3px rgba(0,0,0,0.8); 
+        }
+        .aldea-mia { background: #ffeb3b; width: 18px; height: 18px; z-index: 10; border-color: #3e2723; }
+        .ruina-pin { background: #7f8c8d; border: 2px solid #2b1d14; }
+        .tribu-tag { color: #ce93d8; font-weight: bold; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; }
+        .modal-content { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: #e6d5b8; 
+            color: #2b1d14; 
+            padding: 20px; border-radius: 2px; width: 85%; max-width: 350px; 
+            border: 4px solid #5d4037; 
+            box-shadow: 0 0 20px #000, inset 0 0 10px #b08d57;
+        }
+        .modal-content h3 { color: #8b1c1c; border-bottom: 2px solid #5d4037; padding-bottom: 5px; margin-top: 0; text-shadow: none; }
+        
+        .input-tropa { width: 50px; padding: 5px; text-align: center; margin-left: 10px; background: #fff; border: 1px solid #5d4037; color: #000; }
+        .fila-tropa { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #d7ccc8; padding: 5px 10px; border-radius: 2px; border: 1px solid #a1887f; }
+
+        .chat-container { background: #1a120b; border: 2px solid #b08d57; border-radius: 2px; height: 180px; overflow-y: auto; padding: 8px; margin-bottom: 8px; font-size: 13px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px #000;}
+        .chat-msg { margin-bottom: 6px; word-wrap: break-word; text-align: left; border-bottom: 1px solid #3e2723; padding-bottom: 3px;}
+        .chat-time { color: #8d6e63; font-size: 10px; margin-right: 5px; }
+        .chat-user-me { color: #ffeb3b; font-weight: bold; }
+        .chat-user-other { color: #64b5f6; font-weight: bold; }
+        .chat-text { color: #f4eadd; }
+    </style>
+</head>
+<body>
+
+    <h2>✨ Luminescent Tales</h2>
+
+    <div id="auth-section" class="panel">
+        <h3>Puertas del Reino</h3>
+        <input type="email" id="email" placeholder="Tu correo electrónico">
+        <input type="password" id="pass" placeholder="Tu contraseña">
+        <input type="text" id="nombre-aldea-input" placeholder="Nombre de la Aldea (Solo Registro)">
+        <br><br>
+        <button id="btn-login" class="btn-naranja">Entrar al Reino</button>
+        <button id="btn-registro" class="btn-verde">Fundar Aldea</button>
+    </div>
+
+    <div id="game-section" class="panel" style="display:none; padding: 10px;">
+        <h3 style="margin: 0 0 5px 0; color: #ffeb3b;" id="aldea-display">Mi Aldea</h3>
+        <p style="margin: 0 0 10px 0; font-size: 11px; color: #d7ccc8; font-style: italic;">
+            Gobernante: <span id="user-display" style="font-weight: bold;"></span> | ⭐ <span id="mis-puntos">0</span> | 📍 [<span id="mi-x">0</span>|<span id="mi-y">0</span>]
+        </p>
+
+        <div class="nav-barra">
+            <button id="tab-aldea" class="btn-nav" style="background: #e6d5b8; color: #2b1d14;">🏡 Aldea</button>
+            <button id="tab-ejercito" class="btn-nav">⚔️ Ejército</button>
+            <button id="tab-mapa" class="btn-nav">🌍 Mapa</button>
+            <button id="tab-tribu" class="btn-nav">🛡️ Alianza</button>
+            <button id="tab-informes" class="btn-nav">📜 Informes</button>
+            <button id="tab-ajustes" class="btn-nav">⚙️ Ajustes</button>
+        </div>
+
+        <div id="aldea-tab">
+            <div class="recursos-barra">
+                <div class="item-barra">🪵 <span id="val-madera">0</span> <span class="limite-texto">/ <span id="limite-madera">1k</span></span></div>
+                <div class="item-barra">⛏️ <span id="val-hierro">0</span> <span class="limite-texto">/ <span id="limite-hierro">1k</span></span></div>
+                <div class="item-barra">🌾 <span id="val-comida">0</span> <span class="limite-texto">/ <span id="limite-comida">1k</span></span></div>
+            </div>
+
+            <div id="panel-movimiento" class="marcha-panel" style="display: none;">
+                <h4 style="margin: 0 0 5px 0; color: #ffeb3b;">📯 Movimiento de Tropas</h4>
+                <p id="txt-mov-estado" style="margin: 0; font-size: 13px;"></p>
+                <p id="txt-mov-tiempo" style="margin: 5px 0 0 0; font-weight: bold;"></p>
+            </div>
+
+            <div id="panel-comercio" class="seccion-panel" style="display: none; border-color: #b08d57; border-width: 2px;">
+                <h4 style="margin: 0 0 5px 0; color: #ffeb3b;">⚖️ Mercado Real (Tasa 2:1)</h4>
+                <p style="font-size: 11px; color: #d7ccc8;">Entrega 2 unidades de un recurso por 1 de otro.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <select id="trade-from" style="width: 40%;">
+                        <option value="madera">🪵 Madera</option>
+                        <option value="hierro">⛏️ Hierro</option>
+                        <option value="comida">🌾 Comida</option>
+                    </select>
+                    <span style="font-weight: bold; color: #b08d57;"> ➡️ </span>
+                    <select id="trade-to" style="width: 40%;">
+                        <option value="hierro">⛏️ Hierro</option>
+                        <option value="madera">🪵 Madera</option>
+                        <option value="comida">🌾 Comida</option>
+                    </select>
+                </div>
+                <input type="number" id="trade-amount" placeholder="Cantidad a pagar (Ej: 200)" min="2" step="2" style="width: 100%; text-align: center;">
+                <button id="btn-trade" class="btn-naranja">Intercambiar Recursos</button>
+            </div>
+            
+            <h4 style="margin-bottom: 5px; color: #8bc34a; text-align: left;">Cimientos Económicos</h4>
+            <p id="txt-construyendo" style="color: #ffeb3b; font-size: 12px; display: none;">🔨 Constructor ocupado: <span id="val-construyendo"></span></p>
+
+            <div class="edificio-panel">
+                <h4 class="titulo-edificio">📦 Almacén (Nv. <span id="niv-almacen">0</span>)</h4>
+                <button id="btn-up-almacen" class="btn-azul">
+                    <span id="txt-almacen">...</span> (<span id="coste-m-almacen">0</span>🪵 <span id="coste-h-almacen">0</span>⛏️) ⏱️<span id="t-alm"></span>s
+                </button>
+            </div>
+            <div class="edificio-panel">
+                <h4 class="titulo-edificio">🪵 Aserradero (Nv. <span id="niv-aserradero">0</span>)</h4>
+                <button id="btn-up-aserradero" class="btn-azul">
+                    <span id="txt-aserradero">...</span> (<span id="coste-m-aserradero">0</span> 🪵) ⏱️<span id="t-ase"></span>s
+                </button>
+            </div>
+            <div class="edificio-panel">
+                <h4 class="titulo-edificio">⛏️ Mina de Hierro (Nv. <span id="niv-mina">0</span>)</h4>
+                <button id="btn-up-mina" class="btn-azul">
+                    <span id="txt-mina">...</span> (<span id="coste-m-mina">0</span> 🪵) ⏱️<span id="t-min"></span>s
+                </button>
+            </div>
+            <div class="edificio-panel">
+                <h4 class="titulo-edificio">🌾 Granja (Nv. <span id="niv-granja">0</span>)</h4>
+                <button id="btn-up-granja" class="btn-azul">
+                    <span id="txt-granja">...</span> (<span id="coste-m-granja">0</span>🪵 <span id="coste-h-granja">0</span>⛏️) ⏱️<span id="t-gra"></span>s
+                </button>
+            </div>
+            <div class="edificio-panel" style="border-color: #b08d57;">
+                <h4 class="titulo-edificio" style="color:#b08d57;">⚖️ Mercado (Nv. <span id="niv-mercado">0</span>)</h4>
+                <button id="btn-up-mercado" class="btn-azul">
+                    <span id="txt-mercado">...</span> (<span id="coste-m-mercado">0</span>🪵 <span id="coste-h-mercado">0</span>⛏️) ⏱️<span id="t-mer"></span>s
+                </button>
+            </div>
+        </div>
+
+        <div id="ejercito-tab" style="display: none;">
+            <div class="tropas-barra">
+                <div class="item-barra">🗡️ Lanceros: <span id="val-lanceros">0</span></div>
+                <div class="item-barra">🏹 Arqueros: <span id="val-arqueros">0</span></div>
+                <div class="item-barra">🐎 Caballería: <span id="val-caballos">0</span></div>
+                <div class="item-barra">👑 Élite: <span id="val-elite">0</span></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px; background: #260e0e; padding: 5px; border-radius: 3px; border: 1px solid #b71c1c;">
+                <span style="font-size: 12px; font-weight: bold; color: #ffeb3b; margin-right: 10px;">Llamar a filas:</span>
+                <button id="btn-x1" class="btn-mult btn-mult-activo">x1</button>
+                <button id="btn-x5" class="btn-mult" style="color: #b08d57;">x5</button>
+                <button id="btn-x10" class="btn-mult" style="color: #b08d57;">x10</button>
+            </div>
+
+            <h4 style="margin-bottom: 5px; color: #e57373; text-align: left;">Baluartes Militares</h4>
+
+            <div class="militar-panel" style="border-color: #b08d57; border-width: 2px;">
+                <h4 class="titulo-edificio">🛡️ Gran Muralla (Nv. <span id="niv-muralla">0</span>)</h4>
+                <p class="info-prod">Fortaleza de Defensa: +<span id="val-bono-def">0</span>%</p>
+                <button id="btn-up-muralla" class="btn-rojo">
+                    <span id="txt-muralla">...</span> (<span id="c-m-mur">0</span>🪵 <span id="c-h-mur">0</span>⛏️) ⏱️<span id="t-mur"></span>s
+                </button>
+            </div>
+
+            <div class="militar-panel">
+                <h4 class="titulo-edificio">⚔️ Cuartel (Nv. <span id="niv-cuartel">0</span>)</h4>
+                <button id="btn-up-cuartel" class="btn-rojo">
+                    <span id="txt-cuartel">...</span> (<span id="c-m-cua">0</span>🪵 <span id="c-h-cua">0</span>⛏️) ⏱️<span id="t-cua"></span>s
+                </button>
+                <div id="zona-lanceros" style="display: none; margin-top:10px;">
+                    <button id="btn-rec-lancero" class="btn-negro">...</button>
+                </div>
+            </div>
+            <div class="militar-panel">
+                <h4 class="titulo-edificio">🎯 Galería de Tiro (Nv. <span id="niv-galeria">0</span>)</h4>
+                <button id="btn-up-galeria" class="btn-rojo">
+                    <span id="txt-galeria">...</span> (<span id="c-m-gal">0</span>🪵 <span id="c-h-gal">0</span>⛏️) ⏱️<span id="t-gal"></span>s
+                </button>
+                <div id="zona-arqueros" style="display: none; margin-top:10px;">
+                    <button id="btn-rec-arquero" class="btn-negro">...</button>
+                </div>
+            </div>
+            <div class="militar-panel">
+                <h4 class="titulo-edificio">🐎 Establo (Nv. <span id="niv-establo">0</span>)</h4>
+                <button id="btn-up-establo" class="btn-rojo">
+                    <span id="txt-establo">...</span> (<span id="c-m-est">0</span>🪵 <span id="c-h-est">0</span>⛏️) ⏱️<span id="t-est"></span>s
+                </button>
+                <div id="zona-caballos" style="display: none; margin-top:10px;">
+                    <button id="btn-rec-caballo" class="btn-negro">...</button>
+                </div>
+            </div>
+            <div class="militar-panel">
+                <h4 class="titulo-edificio">👑 Academia Real (Nv. <span id="niv-academia">0</span>)</h4>
+                <button id="btn-up-academia" class="btn-rojo">
+                    <span id="txt-academia">...</span> (<span id="c-m-aca">0</span>🪵 <span id="c-h-aca">0</span>⛏️) ⏱️<span id="t-aca"></span>s
+                </button>
+                <div id="zona-elite" style="display: none; margin-top:10px;">
+                    <button id="btn-rec-elite" class="btn-negro">...</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mapa-tab" style="display: none;">
+            <h3 style="color: #f1c40f;">🌍 El Reino Conocido</h3>
+            <p style="font-size: 12px; color: #bdc3c7; font-style: italic;">🟡 Tú | 🔴 Jugadores | 🔘 Ruinas</p>
+            <div id="mapa-visual" class="contenedor-mapa"></div>
+            <button id="btn-actualizar-mapa" class="btn-azul">🔄 Explorar Horizonte</button>
+            <h4 style="margin-top: 20px; text-align: left; color:#ffeb3b;">Tierras Conquistables:</h4>
+            <div id="lista-jugadores"></div>
+        </div>
+
+        <div id="tribu-tab" style="display: none;">
+            <h3 style="color: #ce93d8; margin-top: 0;">🛡️ Salón de la Alianza</h3>
+            
+            <div id="sin-tribu" class="seccion-panel">
+                <h4 style="margin: 0 0 5px 0;">Forjar un Pacto</h4>
+                <p style="font-size: 12px; color: #d7ccc8;">Graba tu TAG (Max 5 letras). Si no existe, fundarás una nueva Alianza.</p>
+                <input type="text" id="input-tribu" placeholder="TAG EJ: LUZ" maxlength="5" style="text-transform: uppercase; text-align: center;">
+                <button id="btn-unirse-tribu" class="btn-verde">Jurar Lealtad</button>
+            </div>
+
+            <div id="con-tribu" class="seccion-panel" style="display: none; border-color: #ce93d8; border-width: 2px;">
+                <h4 style="margin: 0 0 5px 0;">Estandarte: <span id="mi-etiqueta-tribu" class="tribu-tag"></span></h4>
+                <p style="font-size: 12px; color: #d7ccc8; margin-bottom: 15px; font-style: italic;">Luchas por el honor. El fuego amigo está prohibido.</p>
+                <button id="btn-abandonar-tribu" class="btn-rojo" style="margin-bottom: 15px;">Romper Juramento</button>
+
+                <h4 style="margin: 15px 0 5px 0; color: #64b5f6; border-top: 1px solid #5d4037; padding-top:10px;">💬 Mensajeros</h4>
+                <div id="chat-box" class="chat-container">
+                    <p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Enviando cuervos...</p>
+                </div>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="input-chat" placeholder="Escribe a tus hermanos de armas..." style="width: 75%; margin: 0; padding: 8px;">
+                    <button id="btn-enviar-chat" class="btn-azul" style="width: 25%; margin: 0; padding: 8px;">Enviar</button>
+                </div>
+            </div>
+            
+            <h3 style="color: #f1c40f; margin-top: 20px;">🏆 Libro de la Fama</h3>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                <button id="btn-rank-jugadores" class="btn-azul" style="width: 45%;">Héroes</button>
+                <button id="btn-rank-tribus" class="btn-gris" style="width: 45%;">Alianzas</button>
+            </div>
+            <div id="lista-ranking"></div>
+        </div>
+
+        <div id="informes-tab" style="display: none;">
+            <h3 style="color: #64b5f6;">📜 Crónicas de Guerra</h3>
+            <p style="font-size: 12px; color: #d7ccc8; font-style: italic;">Archivos de tus campañas y defensas.</p>
+            <button id="btn-actualizar-informes" class="btn-azul" style="margin-bottom: 15px;">🔄 Leer Crónicas</button>
+            <div id="lista-informes"></div>
+        </div>
+
+        <div id="ajustes-tab" style="display: none;">
+            <h3 style="color: #bcaaa4; margin-top: 0;">⚙️ Configuración del Reino</h3>
+            
+            <div class="seccion-panel">
+                <h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4>
+                <p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.36</p>
+            </div>
+
+            <div class="seccion-panel">
+                <h4 style="margin: 0 0 5px 0;">Sello de Identidad</h4>
+                <input type="text" id="nuevo-nombre-aldea" placeholder="Renombrar provincia">
+                <button id="btn-renombrar" class="btn-naranja">Grabar Nuevo Nombre</button>
+            </div>
+            <div class="seccion-panel">
+                <button id="btn-logout" class="btn-gris">Dormir (Cerrar Sesión)</button>
+            </div>
+            <div class="peligro-panel" style="margin-top: 20px;">
+                <h4 style="color: #ff5252; margin: 0 0 10px 0;">⚠️ Magia Oscura (Peligro)</h4>
+                <button id="btn-reiniciar" class="btn-naranja">🔄 Arrasar y Reconstruir (Empezar Cero)</button>
+                <button id="btn-borrar-cuenta" class="btn-negro" style="margin-top: 15px;">❌ Destruir Cuenta para Siempre</button>
+            </div>
+        </div>
+
+        <p id="msg-autoguardado" class="guardado-toast">✓ Los escribas han guardado tu progreso.</p>
+    </div>
+
+    <div id="modal-aviso" class="modal-overlay" style="z-index: 200;">
+        <div class="modal-content">
+            <h3>📜 Mensaje Real</h3>
+            <p id="aviso-texto" style="font-size: 14px; margin: 15px 0; font-weight: bold;"></p>
+            <div id="aviso-botones" style="display: flex; justify-content: space-around; gap: 10px;">
+                <button id="btn-aviso-ok" class="btn-verde" style="width: 100%;">Sellar Pergamino</button>
+                <button id="btn-aviso-cancel" class="btn-rojo" style="width: 100%; display: none;">Rechazar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ataque" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-nombre-enemigo" style="margin-top:0;">Declarar Guerra</h3>
+            <p style="font-size:12px; color: #8b1c1c; font-weight: bold; border-bottom: 1px solid #5d4037; padding-bottom: 5px;">
+                Distancia: <span id="modal-distancia">0</span> leguas | Ida: ⏱️ <span id="modal-tiempo">0</span>s
+            </p>
+            <div class="fila-tropa">
+                <span>🗡️ Lanceros (F:1 | C:10)</span>
+                <div><input type="number" id="send-lan" class="input-tropa" value="0" min="0"> / <span id="max-lan">0</span></div>
+            </div>
+            <div class="fila-tropa">
+                <span>🏹 Arqueros (F:2 | C:15)</span>
+                <div><input type="number" id="send-arq" class="input-tropa" value="0" min="0"> / <span id="max-arq">0</span></div>
+            </div>
+            <div class="fila-tropa">
+                <span>🐎 Caballería (F:3 | C:50)</span>
+                <div><input type="number" id="send-cab" class="input-tropa" value="0" min="0"> / <span id="max-cab">0</span></div>
+            </div>
+            <div class="fila-tropa">
+                <span>👑 Élite (F:4 | C:30)</span>
+                <div><input type="number" id="send-eli" class="input-tropa" value="0" min="0"> / <span id="max-eli">0</span></div>
+            </div>
+            <button id="btn-confirmar-ataque" class="btn-rojo" style="margin-top: 15px; padding: 12px; font-size: 16px;">🔥 MARCHAR A LA GUERRA</button>
+            <button id="btn-cancelar-ataque" class="btn-gris">Retirada</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, onValue, set, get, update, remove, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // 1. SISTEMA DE ALERTAS (MENSAJES REALES)
+        window.mostrarAviso = (texto) => {
+            document.getElementById('aviso-texto').innerText = texto;
+            document.getElementById('btn-aviso-cancel').style.display = 'none';
+            document.getElementById('btn-aviso-ok').style.width = '100%';
+            document.getElementById('btn-aviso-ok').innerText = 'Sellar Pergamino';
+            document.getElementById('btn-aviso-ok').onclick = () => { 
+                document.getElementById('modal-aviso').style.display = 'none'; 
+            };
+            document.getElementById('modal-aviso').style.display = 'block';
+        };
+
+        window.mostrarConfirmacion = (texto, callback) => {
+            document.getElementById('aviso-texto').innerText = texto;
+            document.getElementById('btn-aviso-cancel').style.display = 'block';
+            document.getElementById('btn-aviso-ok').style.width = '48%';
+            document.getElementById('btn-aviso-cancel').style.width = '48%';
+            document.getElementById('btn-aviso-ok').innerText = 'Aceptar';
+            
+            document.getElementById('btn-aviso-ok').onclick = () => { 
+                document.getElementById('modal-aviso').style.display = 'none'; 
+                callback(); 
+            };
+            document.getElementById('btn-aviso-cancel').onclick = () => { 
+                document.getElementById('modal-aviso').style.display = 'none'; 
+            };
+            document.getElementById('modal-aviso').style.display = 'block';
+        };
+
+        // 2. CONFIGURACIÓN FIREBASE
+        const firebaseConfig = {
+  apiKey: "AIzaSyCBf-dyHTPnzlFCm4VG-lnZZj1yOy-dlU4",
+  authDomain: "luminescent-tales.firebaseapp.com",
+  databaseURL: "https://luminescent-tales-default-rtdb.firebaseio.com",
+  projectId: "luminescent-tales",
+  storageBucket: "luminescent-tales.firebasestorage.app",
+  messagingSenderId: "957062730558",
+  appId: "1:957062730558:web:8616d4be2d8ebd1797926f"
+};
+
+        const app = initializeApp(firebaseConfig); 
+        const auth = getAuth(app); 
+        const db = getDatabase(app);
+        
+        let miUid = ""; let miNombre = ""; let miAlianza = ""; let miX = 0; let miY = 0;
+        
+        let baseRes = { m: 500, h: 500, c: 500 };
+        let currentRes = { m: 0, h: 0, c: 0 };
+        let baseTs = Date.now();
+        let limit = 1000;
+        let prod = { m: 0, h: 0, c: 0 };
+
+        let niv = { aserradero: 0, mina: 0, granja: 0, almacen: 0, mercado: 0, cuartel: 0, galeria: 0, establo: 0, academia: 0, muralla: 0 };
+        let tropas = { lanceros: 0, arqueros: 0, caballos: 0, elite: 0 };
+        let ent = { lan: 0, lan_qty: 1, arq: 0, arq_qty: 1, cab: 0, cab_qty: 1, eli: 0, eli_qty: 1 };
+        let upg = { b: "", end: 0 }; 
+        let mov = { est: "", fin: 0, oId: "", oN: "", isR: false, lan: 0, arq: 0, cab: 0, eli: 0, bM: 0, bH: 0, bC: 0 }; 
+        
+        let mult = 1; 
+        let objId, objN, objR, tViaje;
+        
+        const STATS = { lan: { f: 1, c: 10 }, arq: { f: 2, c: 15 }, cab: { f: 3, c: 50 }, eli: { f: 4, c: 30 } };
+        const MAX_ECO = 30; const MAX_MIL = 20;
+
+        window.currentChatAlianza = "";
+        let mainInterval = null;
+
+        // 3. NAVEGACIÓN Y TABS
+        function cambiarPestana(name) {
+            const tabs = ['aldea', 'ejercito', 'mapa', 'tribu', 'informes', 'ajustes'];
+            tabs.forEach(t => {
+                document.getElementById(t+'-tab').style.display = t === name ? 'block' : 'none';
+                const boton = document.getElementById('tab-' + t);
+                boton.style.background = t === name ? '#e6d5b8' : 'transparent';
+                boton.style.color = t === name ? '#2b1d14' : '#b08d57';
+            });
+
+            if (name === 'mapa') cargarMapa();
+            if (name === 'informes') cargarInformes();
+            if (name === 'tribu') cargarRanking('jugadores');
+        }
+
+        document.getElementById('tab-aldea').onclick = () => cambiarPestana('aldea');
+        document.getElementById('tab-ejercito').onclick = () => cambiarPestana('ejercito');
+        document.getElementById('tab-mapa').onclick = () => cambiarPestana('mapa');
+        document.getElementById('tab-tribu').onclick = () => cambiarPestana('tribu');
+        document.getElementById('tab-informes').onclick = () => cambiarPestana('informes');
+        document.getElementById('tab-ajustes').onclick = () => cambiarPestana('ajustes');
+
+        function setMultiplicador(m) { 
+            mult = m; 
+            const opciones = [1, 5, 10];
+            opciones.forEach(x => { 
+                const boton = document.getElementById('btn-x' + x); 
+                boton.className = x === m ? 'btn-mult btn-mult-activo' : 'btn-mult'; 
+                boton.style.color = x === m ? '#1a120b' : '#b08d57';
+            }); 
+            actualizarTextosBotones();
+        }
+
+        document.getElementById('btn-x1').onclick = () => setMultiplicador(1); 
+        document.getElementById('btn-x5').onclick = () => setMultiplicador(5); 
+        document.getElementById('btn-x10').onclick = () => setMultiplicador(10);
+
+        // 4. AUTENTICACIÓN
+        document.getElementById('btn-registro').onclick = () => {
+            const email = document.getElementById('email').value; 
+            const pass = document.getElementById('pass').value;
+            const nombreAldea = document.getElementById('nombre-aldea-input').value || "Aldea de " + email.split('@')[0];
+            
+            createUserWithEmailAndPassword(auth, email, pass).then((userCredential) => {
+                set(ref(db, 'usuarios/' + userCredential.user.uid), {
+                    nombre: email.split('@')[0], nombre_aldea: nombreAldea, tribu: "", 
+                    coord_x: Math.floor(Math.random() * 100) + 1, coord_y: Math.floor(Math.random() * 100) + 1, 
+                    madera: 500, hierro: 500, comida: 500, 
+                    nivel_aserradero: 1, nivel_mina: 0, nivel_granja: 0, nivel_almacen: 0, nivel_mercado: 0, 
+                    nivel_cuartel: 0, nivel_galeria: 0, nivel_establo: 0, nivel_academia: 0, nivel_muralla: 0, 
+                    lanceros: 0, arqueros: 0, caballos: 0, elite: 0,
+                    entr_lan: 0, entr_lan_qty: 1, entr_arq: 0, entr_arq_qty: 1, entr_cab: 0, entr_cab_qty: 1, entr_eli: 0, entr_eli_qty: 1,
+                    upg_b: "", upg_end: 0, mov_est: "", ultima_actualizacion: Date.now()
+                });
+            }).catch(err => mostrarAviso("Los magos reportan un error: " + err.message));
+        };
+
+        document.getElementById('btn-login').onclick = () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            signInWithEmailAndPassword(auth, email, pass).catch(e => mostrarAviso("Las puertas están cerradas. Error: " + e.message));
+        };
+
+        document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+        // 5. CHAT DE ALIANZA
+        function iniciarChatAlianza(tag) {
+            const chatRef = ref(db, 'chat_alianza/' + tag);
+            onValue(chatRef, (snap) => {
+                const box = document.getElementById('chat-box');
+                box.innerHTML = "";
+                if(snap.exists()) {
+                    const msgs = [];
+                    snap.forEach(h => { msgs.push(h.val()); });
+                    msgs.slice(-50).forEach(m => {
+                        const time = new Date(m.ts).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        const isMe = m.uid === miUid;
+                        const colorName = isMe ? '#ffeb3b' : '#64b5f6';
+                        box.innerHTML += `<div class="chat-msg"><span class="chat-time">[${time}]</span> <b style="color: ${colorName};">${m.n}:</b> <span class="chat-text">${m.txt}</span></div>`;
+                    });
+                    box.scrollTop = box.scrollHeight;
+                } else {
+                    box.innerHTML = "<p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Ningún mensajero ha llegado a la alianza aún.</p>";
+                }
+            });
+        }
+
+        document.getElementById('btn-enviar-chat').onclick = () => {
+            const input = document.getElementById('input-chat');
+            const txt = input.value.trim();
+            if(txt !== "" && miAlianza !== "") {
+                push(ref(db, 'chat_alianza/' + miAlianza), { uid: miUid, n: miNombre, txt: txt, ts: Date.now() });
+                input.value = ""; 
+            }
+        };
+
+        // 6. SINCRONIZACIÓN DE LA BASE DE DATOS
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                miUid = user.uid; 
+                document.getElementById('auth-section').style.display = 'none'; 
+                document.getElementById('game-section').style.display = 'block';
+                document.getElementById('user-display').innerText = user.email.split('@')[0];
+                cambiarPestana('aldea');
+                
+                setInterval(() => {
+                    if(!isNaN(currentRes.m)) {
+                        update(ref(db, 'usuarios/' + miUid), { madera: currentRes.m, hierro: currentRes.h, comida: currentRes.c, ultima_actualizacion: Date.now() })
+                        .then(() => { 
+                            document.getElementById('msg-autoguardado').style.display = 'block'; 
+                            setTimeout(() => { document.getElementById('msg-autoguardado').style.display = 'none'; }, 3000); 
+                        });
+                    }
+                }, 60000);
+
+                onValue(ref(db, 'usuarios/' + miUid), (snap) => {
+                    const d = snap.val(); 
+                    if(!d) return;
+
+                    baseRes.m = parseFloat(d.madera) || 0;
+                    baseRes.h = parseFloat(d.hierro) || 0;
+                    baseRes.c = parseFloat(d.comida) || 0;
+                    baseTs = d.ultima_actualizacion || Date.now();
+
+                    miX = d.coord_x || 0; miY = d.coord_y || 0; miAlianza = d.tribu || ""; miNombre = d.nombre_aldea || d.nombre;
+                    
+                    if (miX === 0) { 
+                        miX = Math.floor(Math.random() * 100) + 1; miY = Math.floor(Math.random() * 100) + 1; 
+                        update(ref(db, 'usuarios/' + miUid), { coord_x: miX, coord_y: miY }); 
+                    }
+                    
+                    document.getElementById('mi-x').innerText = miX; document.getElementById('mi-y').innerText = miY;
+                    document.getElementById('aldea-display').innerText = miAlianza ? `[${miAlianza}] ${miNombre}` : miNombre;
+                    
+                    if(miAlianza) { 
+                        document.getElementById('con-tribu').style.display = 'block'; 
+                        document.getElementById('sin-tribu').style.display = 'none'; 
+                        document.getElementById('mi-etiqueta-tribu').innerText = miAlianza;
+                        if(window.currentChatAlianza !== miAlianza) {
+                            window.currentChatAlianza = miAlianza;
+                            iniciarChatAlianza(miAlianza);
+                        }
+                    } else { 
+                        document.getElementById('con-tribu').style.display = 'none'; 
+                        document.getElementById('sin-tribu').style.display = 'block'; 
+                        window.currentChatAlianza = "";
+                    }
+
+                    niv = { 
+                        aserradero: d.nivel_aserradero || 0, mina: d.nivel_mina || 0, granja: d.nivel_granja || 0, 
+                        almacen: d.nivel_almacen || 0, mercado: d.nivel_mercado || 0, cuartel: d.nivel_cuartel || 0, 
+                        galeria: d.nivel_galeria || 0, establo: d.nivel_establo || 0, academia: d.nivel_academia || 0, muralla: d.nivel_muralla || 0 
+                    };
+                    
+                    prod.m = niv.aserradero * 1; prod.h = niv.mina * 0.5; prod.c = niv.granja * 2;
+                    limit = 1000 + (niv.almacen * 500);
+
+                    tropas = { lanceros: d.lanceros||0, arqueros: d.arqueros||0, caballos: d.caballos||0, elite: d.elite||0 };
+                    ent = { 
+                        lan: d.entr_lan||0, lan_q: d.entr_lan_qty||1, 
+                        arq: d.entr_arq||0, arq_q: d.entr_arq_qty||1, 
+                        cab: d.entr_cab||0, cab_q: d.entr_cab_qty||1, 
+                        eli: d.entr_eli||0, eli_q: d.entr_eli_qty||1 
+                    };
+                    upg = { b: d.upg_b || "", end: d.upg_end || 0 };
+                    mov = { 
+                        est: d.mov_est || "", fin: d.mov_fin || 0, oId: d.mov_oId || "", oN: d.mov_oN || "", 
+                        isR: d.mov_isR || false, lan: d.mov_lan || 0, arq: d.mov_arq || 0, cab: d.mov_cab || 0, 
+                        eli: d.mov_eli || 0, bM: d.mov_bM || 0, bH: d.mov_bH || 0, bC: d.mov_bC || 0 
+                    };
+                    
+                    let misPuntos = Object.values(niv).reduce((a, b) => a + b, 0);
+                    document.getElementById('mis-puntos').innerText = misPuntos;
+                    
+                    actualizarTextosBotones();
+                });
+            } else { 
+                document.getElementById('auth-section').style.display = 'block'; 
+                document.getElementById('game-section').style.display = 'none'; 
+                window.currentChatAlianza = "";
+            }
+        });
+
+        // 7. ACTUALIZACIÓN VISUAL (UI)
+        function actualizarTextosBotones() {
+            document.getElementById('val-lanceros').innerText = tropas.lanceros; 
+            document.getElementById('val-arqueros').innerText = tropas.arqueros;
+            document.getElementById('val-caballos').innerText = tropas.caballos; 
+            document.getElementById('val-elite').innerText = tropas.elite;
+            
+            document.getElementById('limite-madera').innerText = (limit / 1000) + 'k'; 
+            document.getElementById('limite-hierro').innerText = (limit / 1000) + 'k'; 
+            document.getElementById('limite-comida').innerText = (limit / 1000) + 'k';
+            
+            document.getElementById('niv-aserradero').innerText = niv.aserradero; 
+            document.getElementById('niv-mina').innerText = niv.mina; 
+            document.getElementById('niv-granja').innerText = niv.granja; 
+            document.getElementById('niv-almacen').innerText = niv.almacen; 
+            document.getElementById('niv-mercado').innerText = niv.mercado;
+            document.getElementById('niv-cuartel').innerText = niv.cuartel; 
+            document.getElementById('niv-galeria').innerText = niv.galeria; 
+            document.getElementById('niv-establo').innerText = niv.establo; 
+            document.getElementById('niv-academia').innerText = niv.academia; 
+            document.getElementById('niv-muralla').innerText = niv.muralla;
+            
+            document.getElementById('val-bono-def').innerText = niv.muralla * 5;
+            
+            const cAse = (niv.aserradero + 1) * 50; const cMin = (niv.mina + 1) * 60; const cGraM = (niv.granja + 1) * 40; const cGraH = (niv.granja + 1) * 20; 
+            const cAlm = (niv.almacen + 1) * 100; const cAlmH = (niv.almacen + 1) * 50; const cMerM = (niv.mercado + 1) * 80; const cMerH = (niv.mercado + 1) * 80;
+            const cMurM = (niv.muralla + 1) * 100; const cMurH = (niv.muralla + 1) * 150;
+            
+            document.getElementById('coste-m-aserradero').innerText = cAse; document.getElementById('coste-m-mina').innerText = cMin; document.getElementById('coste-m-granja').innerText = cGraM; document.getElementById('coste-h-granja').innerText = cGraH; 
+            document.getElementById('coste-m-almacen').innerText = cAlm; document.getElementById('coste-h-almacen').innerText = cAlmH; document.getElementById('coste-m-mercado').innerText = cMerM; document.getElementById('coste-h-mercado').innerText = cMerH;
+            document.getElementById('c-m-mur').innerText = cMurM; document.getElementById('c-h-mur').innerText = cMurH;
+            
+            document.getElementById('c-m-cua').innerText = (niv.cuartel + 1) * 100; document.getElementById('c-h-cua').innerText = (niv.cuartel + 1) * 50;
+            document.getElementById('c-m-gal').innerText = (niv.galeria + 1) * 150; document.getElementById('c-h-gal').innerText = (niv.galeria + 1) * 100;
+            document.getElementById('c-m-est').innerText = (niv.establo + 1) * 200; document.getElementById('c-h-est').innerText = (niv.establo + 1) * 200;
+            document.getElementById('c-m-aca').innerText = (niv.academia + 1) * 400; document.getElementById('c-h-aca').innerText = (niv.academia + 1) * 400;
+
+            const tAse = (niv.aserradero + 1) * 30; const tMin = (niv.mina + 1) * 30; const tGra = (niv.granja + 1) * 30; const tAlm = (niv.almacen + 1) * 30; const tMer = (niv.mercado + 1) * 30; const tMur = (niv.muralla + 1) * 30;
+            const tCua = (niv.cuartel + 1) * 30; const tGal = (niv.galeria + 1) * 30; const tEst = (niv.establo + 1) * 30; const tAca = (niv.academia + 1) * 30;
+            
+            document.getElementById('t-ase').innerText = tAse; document.getElementById('t-min').innerText = tMin; document.getElementById('t-gra').innerText = tGra; document.getElementById('t-alm').innerText = tAlm; document.getElementById('t-mer').innerText = tMer; document.getElementById('t-mur').innerText = tMur;
+            document.getElementById('t-cua').innerText = tCua; document.getElementById('t-gal').innerText = tGal; document.getElementById('t-est').innerText = tEst; document.getElementById('t-aca').innerText = tAca;
+
+            document.getElementById('zona-lanceros').style.display = niv.cuartel > 0 ? "block" : "none"; 
+            document.getElementById('zona-arqueros').style.display = niv.galeria > 0 ? "block" : "none";
+            document.getElementById('zona-caballos').style.display = niv.establo > 0 ? "block" : "none"; 
+            document.getElementById('zona-elite').style.display = niv.academia > 0 ? "block" : "none";
+            document.getElementById('panel-comercio').style.display = niv.mercado > 0 ? "block" : "none";
+
+            const uis = [
+                {id: 'ase', n: niv.aserradero, btn: 'btn-up-aserradero', txt: 'txt-aserradero', m: MAX_ECO}, 
+                {id: 'min', n: niv.mina, btn: 'btn-up-mina', txt: 'txt-mina', m: MAX_ECO}, 
+                {id: 'gra', n: niv.granja, btn: 'btn-up-granja', txt: 'txt-granja', m: MAX_ECO}, 
+                {id: 'alm', n: niv.almacen, btn: 'btn-up-almacen', txt: 'txt-almacen', m: MAX_ECO}, 
+                {id: 'mer', n: niv.mercado, btn: 'btn-up-mercado', txt: 'txt-mercado', m: MAX_ECO},
+                {id: 'mur', n: niv.muralla, btn: 'btn-up-muralla', txt: 'txt-muralla', m: MAX_MIL}, 
+                {id: 'cua', n: niv.cuartel, btn: 'btn-up-cuartel', txt: 'txt-cuartel', m: MAX_MIL}, 
+                {id: 'gal', n: niv.galeria, btn: 'btn-up-galeria', txt: 'txt-galeria', m: MAX_MIL}, 
+                {id: 'est', n: niv.establo, btn: 'btn-up-establo', txt: 'txt-establo', m: MAX_MIL}, 
+                {id: 'aca', n: niv.academia, btn: 'btn-up-academia', txt: 'txt-academia', m: MAX_MIL}
+            ];
+            
+            uis.forEach(ui => {
+                const b = document.getElementById(ui.btn); const t = document.getElementById(ui.txt);
+                if (upg.b !== "") { b.disabled = true; t.innerText = "Ocupado"; } 
+                else { b.disabled = ui.n >= ui.m; t.innerText = ui.n === 0 ? "Construir" : (ui.n >= ui.m ? "Máximo" : "Mejorar"); }
+            });
+
+            document.getElementById('btn-up-almacen').onclick = () => { procesarCompraConstruccion('alm', cAlm, cAlmH, 0, tAlm); }; 
+            document.getElementById('btn-up-aserradero').onclick = () => { procesarCompraConstruccion('ase', cAse, 0, 0, tAse); }; 
+            document.getElementById('btn-up-mina').onclick = () => { procesarCompraConstruccion('min', cMin, 0, 0, tMin); }; 
+            document.getElementById('btn-up-granja').onclick = () => { procesarCompraConstruccion('gra', cGraM, cGraH, 0, tGra); }; 
+            document.getElementById('btn-up-mercado').onclick = () => { procesarCompraConstruccion('mer', cMerM, cMerH, 0, tMer); }; 
+            document.getElementById('btn-up-muralla').onclick = () => { procesarCompraConstruccion('mur', cMurM, cMurH, 0, tMur); };
+            document.getElementById('btn-up-cuartel').onclick = () => { procesarCompraConstruccion('cua', (niv.cuartel + 1) * 100, (niv.cuartel + 1) * 50, 0, tCua); }; 
+            document.getElementById('btn-up-galeria').onclick = () => { procesarCompraConstruccion('gal', (niv.galeria + 1) * 150, (niv.galeria + 1) * 100, 0, tGal); }; 
+            document.getElementById('btn-up-establo').onclick = () => { procesarCompraConstruccion('est', (niv.establo + 1) * 200, (niv.establo + 1) * 200, 0, tEst); }; 
+            document.getElementById('btn-up-academia').onclick = () => { procesarCompraConstruccion('aca', (niv.academia + 1) * 400, (niv.academia + 1) * 400, 0, tAca); };
+
+            const tiempoLan = Math.max(2, Math.floor(10 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tiempoArq = Math.max(3, Math.floor(15 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tiempoCab = Math.max(5, Math.floor(25 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tiempoEli = Math.max(10, Math.floor(40 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+
+            document.getElementById('btn-rec-lancero').onclick = () => { procesarCompraEntrenamiento('lan', 50 * mult, 30 * mult, 10 * mult, tiempoLan * mult, mult); };
+            document.getElementById('btn-rec-arquero').onclick = () => { procesarCompraEntrenamiento('arq', 70 * mult, 40 * mult, 20 * mult, tiempoArq * mult, mult); };
+            document.getElementById('btn-rec-caballo').onclick = () => { procesarCompraEntrenamiento('cab', 100 * mult, 80 * mult, 50 * mult, tiempoCab * mult, mult); };
+            document.getElementById('btn-rec-elite').onclick = () => { procesarCompraEntrenamiento('eli', 200 * mult, 150 * mult, 100 * mult, tiempoEli * mult, mult); };
+        }
+
+        // 8. FUNCIONES DE GASTO
+        function procesarCompraConstruccion(edificioId, costeMadera, costeHierro, costeComida, tiempoEspera) {
+            if (upg.b !== "") return mostrarAviso("El constructor ya está ocupado.");
+            if (currentRes.m < costeMadera || currentRes.h < costeHierro || currentRes.c < costeComida) return mostrarAviso("Recursos insuficientes para construir.");
+            
+            baseRes.m = currentRes.m - costeMadera;
+            baseRes.h = currentRes.h - costeHierro;
+            baseRes.c = currentRes.c - costeComida;
+            baseTs = Date.now();
+            upg.b = edificioId;
+            upg.end = Date.now() + (tiempoEspera * 1000);
+
+            update(ref(db, 'usuarios/' + miUid), { madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, ultima_actualizacion: baseTs, upg_b: upg.b, upg_end: upg.end });
+            refreshUI(); 
+        }
+
+        function procesarCompraEntrenamiento(tropaId, costeMadera, costeHierro, costeComida, tiempoEspera, cantidadReclutas) {
+            if (currentRes.m < costeMadera || currentRes.h < costeHierro || currentRes.c < costeComida) return mostrarAviso("No hay recursos suficientes para equipar a estos soldados.");
+            
+            baseRes.m = currentRes.m - costeMadera;
+            baseRes.h = currentRes.h - costeHierro;
+            baseRes.c = currentRes.c - costeComida;
+            baseTs = Date.now();
+
+            let actualizacionDB = { madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, ultima_actualizacion: baseTs };
+            actualizacionDB['entr_' + tropaId] = Date.now() + (tiempoEspera * 1000);
+            actualizacionDB['entr_' + tropaId + '_qty'] = cantidadReclutas;
+            
+            update(ref(db, 'usuarios/' + miUid), actualizacionDB);
+        }
+
+        document.getElementById('btn-trade').onclick = () => {
+            const recursoPago = document.getElementById('trade-from').value;
+            const recursoRecibe = document.getElementById('trade-to').value;
+            const cantidadStr = document.getElementById('trade-amount').value;
+            const cantidadAPagar = parseInt(cantidadStr);
+            
+            if (recursoPago === recursoRecibe) return mostrarAviso("El mercader te mira confuso. No puedes cambiar un material por sí mismo.");
+            if (!cantidadAPagar || cantidadAPagar <= 0 || cantidadAPagar % 2 !== 0) return mostrarAviso("El trato exige un número par. La tasa real es 2 a 1.");
+            
+            let charPago = recursoPago.charAt(0); let charRecibe = recursoRecibe.charAt(0);
+
+            if (currentRes[charPago] < cantidadAPagar) return mostrarAviso(`No posees suficiente ${recursoPago} para sellar el trato.`);
+            
+            const gananciaReal = cantidadAPagar / 2;
+            if (currentRes[charRecibe] + gananciaReal > limit) return mostrarAviso(`Tus almacenes se desbordan. No puedes recibir ${gananciaReal} de ${recursoRecibe}.`);
+
+            baseRes[charPago] = currentRes[charPago] - cantidadAPagar;
+            baseRes[charRecibe] = currentRes[charRecibe] + gananciaReal;
+            baseTs = Date.now();
+
+            update(ref(db, 'usuarios/' + miUid), { madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, ultima_actualizacion: baseTs }).then(() => { 
+                mostrarAviso(`⚖️ Comercio sellado:\nHas entregado ${cantidadAPagar} ${recursoPago}.\nHas recibido ${gananciaReal} ${recursoRecibe}.`); 
+                document.getElementById('trade-amount').value = ""; 
+            });
+        };
+
+        // 9. RELOJ DEL JUEGO
+        setInterval(() => {
+            if(!miUid) return; 
+
+            const ahora = Date.now(); 
+            const seg = (ahora - baseTs) / 1000;
+            
+            currentRes.m = Math.min(baseRes.m + (seg * prod.m), limit); 
+            currentRes.h = Math.min(baseRes.h + (seg * prod.h), limit); 
+            currentRes.c = Math.min(baseRes.c + (seg * prod.c), limit);
+            
+            document.getElementById('val-madera').innerText = Math.floor(currentRes.m); 
+            document.getElementById('val-hierro').innerText = Math.floor(currentRes.h); 
+            document.getElementById('val-comida').innerText = Math.floor(currentRes.c);
+
+            const pConstruccion = document.getElementById('txt-construyendo');
+            if (upg.b !== "") {
+                pConstruccion.style.display = 'block';
+                if (ahora >= upg.end) {
+                    let mapEdif = {ase:'aserradero', min:'mina', gra:'granja', alm:'almacen', mer:'mercado', mur:'muralla', cua:'cuartel', gal:'galeria', est:'establo', aca:'academia'};
+                    let eReal = mapEdif[upg.b];
+                    
+                    // Aseguramos que la actualización llegue antes de resetear la vista para evitar conflictos
+                    upg.b = "procesando_obra"; 
+                    
+                    let upd = { upg_b: "", upg_end: 0 }; 
+                    upd[`nivel_${eReal}`] = niv[eReal] + 1;
+                    update(ref(db, 'usuarios/' + miUid), upd); 
+                } else { 
+                    if (upg.b !== "procesando_obra") {
+                        document.getElementById('val-construyendo').innerText = Math.ceil((upg.end - ahora) / 1000) + 's'; 
+                    }
+                }
+            } else { pConstruccion.style.display = 'none'; }
+
+            const tLan = Math.max(2, Math.floor(10 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tArq = Math.max(3, Math.floor(15 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tCab = Math.max(5, Math.floor(25 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tEli = Math.max(10, Math.floor(40 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+
+            function procQ(tipo, tFin, cant, idBoton, tBase, rM, rH, rC, nomTropa) {
+                const b = document.getElementById(idBoton);
+                if (tFin > 0) {
+                    if (ahora >= tFin) {
+                        if (tipo === 'lan') { tropas.lanceros += cant; ent.lan = 0; } 
+                        if (tipo === 'arq') { tropas.arqueros += cant; ent.arq = 0; }
+                        if (tipo === 'cab') { tropas.caballos += cant; ent.cab = 0; } 
+                        if (tipo === 'eli') { tropas.elite += cant; ent.eli = 0; }
+                        update(ref(db, 'usuarios/' + miUid), { lanceros: tropas.lanceros, arqueros: tropas.arqueros, caballos: tropas.caballos, elite: tropas.elite, entr_lan: ent.lan, entr_arq: ent.arq, entr_cab: ent.cab, entr_eli: ent.eli });
+                    } else { 
+                        b.innerText = `⏳ ${cant}x... ${Math.ceil((tFin - ahora) / 1000)}s`; b.disabled = true; 
+                    }
+                } else { 
+                    b.innerText = `Reclutar ${mult} ${nomTropa} (${rM * mult}🪵 ${rH * mult}⛏️ ${rC * mult}🌾) - ⏱️ ${tBase * mult}s`; 
+                    if(upg.b === "") b.disabled = false; 
+                }
+            }
+
+            procQ('lan', ent.lan, ent.lan_q, 'btn-rec-lancero', tLan, 50, 30, 10, 'Lan'); 
+            procQ('arq', ent.arq, ent.arq_q, 'btn-rec-arquero', tArq, 70, 40, 20, 'Arq');
+            procQ('cab', ent.cab, ent.cab_q, 'btn-rec-caballo', tCab, 100, 80, 50, 'Cab'); 
+            procQ('eli', ent.eli, ent.eli_q, 'btn-rec-elite', tEli, 200, 150, 100, 'Éli');
+
+            const pMovimiento = document.getElementById('panel-movimiento');
+            if (mov.est !== "") {
+                pMovimiento.style.display = 'block';
+                document.getElementById('txt-mov-estado').innerText = mov.est === "ida" ? `⚔️ Atacando a ${mov.oN}` : `💰 Regresando con botín`;
+                
+                if (ahora >= mov.fin) {
+                    if (mov.est === "ida") {
+                        mov.est = "procesando"; // EVITA LA CONDICIÓN DE CARRERA DEL TIMER DE 1S
+                        
+                        const miFuerza = (mov.lan * STATS.lan.f) + (mov.arq * STATS.arq.f) + (mov.cab * STATS.cab.f) + (mov.eli * STATS.eli.f);
+                        const rutaEnemiga = mov.isR ? ref(db, 'ruinas/' + mov.oId) : ref(db, 'usuarios/' + mov.oId);
+                        
+                        get(rutaEnemiga).then((snapEnemigo) => {
+                            if (!snapEnemigo.exists()) { 
+                                update(ref(db, 'usuarios/' + miUid), { mov_est: "vuelta", mov_fin: Date.now() + 15000 }); return; 
+                            }
+                            
+                            const dE = snapEnemigo.val();
+                            let fE = 0, mE = 0, hE = 0, cE = 0;
+                            
+                            if (mov.isR) {
+                                const segR = (ahora - dE.ua) / 1000;
+                                mE = Math.min((parseFloat(dE.m) || 0) + (segR * 1), 2000); 
+                                hE = Math.min((parseFloat(dE.h) || 0) + (segR * 1), 2000); 
+                                cE = Math.min((parseFloat(dE.c) || 0) + (segR * 2), 2000);
+                            } else {
+                                const fB = ((dE.lanceros || 0) * STATS.lan.f) + ((dE.arqueros || 0) * STATS.arq.f) + ((dE.caballos || 0) * STATS.cab.f) + ((dE.elite || 0) * STATS.eli.f);
+                                fE = fB * (1 + ((dE.nivel_muralla || 0) * 0.05)); 
+                                mE = parseFloat(dE.madera) || 0; hE = parseFloat(dE.hierro) || 0; cE = parseFloat(dE.comida) || 0;
+                            }
+
+                            const hayVictoria = miFuerza > fE;
+                            if (hayVictoria) {
+                                const rSup = fE / miFuerza;
+                                const sL = Math.ceil(mov.lan * (1 - rSup)); const sA = Math.ceil(mov.arq * (1 - rSup)); const sC = Math.ceil(mov.cab * (1 - rSup)); const sE = Math.ceil(mov.eli * (1 - rSup));
+                                const capTot = (sL * STATS.lan.c) + (sA * STATS.arq.c) + (sC * STATS.cab.c) + (sE * STATS.eli.c);
+                                
+                                let bM = Math.min(Math.floor(mE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); 
+                                let bH = Math.min(Math.floor(hE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3)); 
+                                let bC = Math.min(Math.floor(cE * (mov.isR ? 1 : 0.30)), Math.floor(capTot / 3));
+                                
+                                let penE = { ua: Date.now() }; 
+                                if (mov.isR) { penE.m = Math.max(0, mE - bM); penE.h = Math.max(0, hE - bH); penE.c = Math.max(0, cE - bC); } 
+                                else { penE.madera = Math.max(0, mE - bM); penE.hierro = Math.max(0, hE - bH); penE.comida = Math.max(0, cE - bC); penE.lanceros = 0; penE.arqueros = 0; penE.caballos = 0; penE.elite = 0; }
+                                update(rutaEnemiga, penE);
+                                
+                                update(ref(db, 'usuarios/' + miUid), { mov_est: "vuelta", mov_fin: Date.now() + 15000, mov_lan: sL, mov_arq: sA, mov_cab: sC, mov_eli: sE, mov_bM: bM, mov_bH: bH, mov_bC: bC });
+                                
+                                const reporte = { fecha: Date.now(), atacante: (miAlianza ? `[${miAlianza}] ` : "") + miNombre, defensor: mov.oN, victoria: true, botin_m: bM, botin_h: bH, botin_c: bC };
+                                push(ref(db, 'informes/' + miUid), reporte); if (!mov.isR) push(ref(db, 'informes/' + mov.oId), reporte);
+                                
+                                mostrarAviso(`⚔️ ¡La victoria es tuya en ${mov.oN}!\nTus tropas regresan con el botín en 15s.`);
+                            } else {
+                                const rE = (miFuerza / fE) || 0; 
+                                if (!mov.isR) { update(rutaEnemiga, { lanceros: Math.ceil((dE.lanceros || 0) * (1 - rE)), arqueros: Math.ceil((dE.arqueros || 0) * (1 - rE)), caballos: Math.ceil((dE.caballos || 0) * (1 - rE)), elite: Math.ceil((dE.elite || 0) * (1 - rE)) }); }
+                                
+                                update(ref(db, 'usuarios/' + miUid), { mov_est: "", mov_fin: 0, mov_lan: 0, mov_arq: 0, mov_cab: 0, mov_eli: 0 });
+                                
+                                const reporte = { fecha: Date.now(), atacante: (miAlianza ? `[${miAlianza}] ` : "") + miNombre, defensor: mov.oN, victoria: false, botin_m: 0, botin_h: 0, botin_c: 0 };
+                                push(ref(db, 'informes/' + miUid), reporte); if (!mov.isR) push(ref(db, 'informes/' + mov.oId), reporte);
+                                
+                                mostrarAviso(`💀 ¡Catástrofe en ${mov.oN}!\nTu ejército fue aniquilado sin piedad.`);
+                            }
+                        });
+                    } else if (mov.est === "vuelta") {
+                        mov.est = "procesando"; // EVITA LA CONDICIÓN DE CARRERA
+                        
+                        const botinFinalMadera = mov.bM; const botinFinalHierro = mov.bH; const botinFinalComida = mov.bC;
+                        
+                        baseRes.m = currentRes.m + botinFinalMadera; baseRes.h = currentRes.h + botinFinalHierro; baseRes.c = currentRes.c + botinFinalComida;
+                        baseTs = Date.now();
+
+                        update(ref(db, 'usuarios/' + miUid), { 
+                            madera: baseRes.m, hierro: baseRes.h, comida: baseRes.c, 
+                            lanceros: tropas.lanceros + mov.lan, arqueros: tropas.arqueros + mov.arq, caballos: tropas.caballos + mov.cab, elite: tropas.elite + mov.eli, 
+                            mov_est: "", mov_fin: 0, mov_bM: 0, mov_bH: 0, mov_bC: 0, mov_lan: 0, mov_arq: 0, mov_cab: 0, mov_eli: 0, ultima_actualizacion: baseTs 
+                        });
+                        
+                        mostrarAviso(`🎉 ¡Regreso triunfal!\n🪵 +${botinFinalMadera} | ⛏️ +${botinFinalHierro} | 🌾 +${botinFinalComida}`);
+                    }
+                } else { 
+                    if (mov.est !== "procesando") {
+                        document.getElementById('txt-mov-tiempo').innerText = Math.ceil((mov.fin - ahora) / 1000) + 's'; 
+                    }
+                }
+            } else { pMovimiento.style.display = 'none'; }
+        }, 1000);
+
+        // 10. MAPA Y ATAQUE
+        function cargarMapa() {
+            const listaDiv = document.getElementById('lista-jugadores'); const visualDiv = document.getElementById('mapa-visual');
+            listaDiv.innerHTML = "<p>Enviando exploradores...</p>"; visualDiv.innerHTML = "";
+            
+            get(ref(db, 'usuarios')).then(snapUsuarios => {
+                listaDiv.innerHTML = "";
+                snapUsuarios.forEach(hijo => {
+                    const u = hijo.val(); const uId = hijo.key;
+                    const tag = u.tribu ? `[${u.tribu}] ` : ""; const nombreVisual = tag + (u.nombre_aldea || u.nombre); const esAliado = miAlianza !== "" && u.tribu === miAlianza;
+                    
+                    const pinVisual = document.createElement('div'); pinVisual.className = 'aldea-pin'; pinVisual.style.left = u.coord_x + '%'; pinVisual.style.top = u.coord_y + '%';
+                    
+                    if (uId === miUid) { pinVisual.classList.add('aldea-mia'); } 
+                    else { 
+                        if (esAliado) pinVisual.style.background = '#ce93d8'; 
+                        pinVisual.onclick = () => { if (!esAliado) abrirVentanaAtaque(uId, nombreVisual, u.coord_x, u.coord_y, false); else mostrarAviso("Un edicto prohíbe atacar a aliados."); }; 
+                    }
+                    visualDiv.appendChild(pinVisual);
+                    
+                    if (uId !== miUid) {
+                        let colorTexto = esAliado ? '#ce93d8' : '#e57373'; let iconoEstado = esAliado ? '🛡️' : '🔴'; let htmlBoton = esAliado ? '' : `<button onclick="abrirVentanaAtaque('${uId}','${nombreVisual}',${u.coord_x},${u.coord_y},false)" class="btn-rojo" style="padding:5px; width:auto; float:right;">Declarar Guerra</button>`;
+                        listaDiv.innerHTML += `<div class="jugador-card" style="${esAliado ? 'border-color:#ce93d8' : ''}"><b style="color:${colorTexto}">${iconoEstado} ${nombreVisual}</b><br><span style="font-size:12px; color:#d7ccc8;">Gobernante: ${u.nombre}</span><br>📍 [${u.coord_x}|${u.coord_y}] ${htmlBoton}</div>`;
+                    }
+                });
+                
+                get(ref(db, 'ruinas')).then(snapRuinas => {
+                    if(snapRuinas.exists()) {
+                        snapRuinas.forEach(hijoRuina => {
+                            const r = hijoRuina.val(); const rId = hijoRuina.key;
+                            const pinRuina = document.createElement('div'); pinRuina.className = 'aldea-pin ruina-pin'; pinRuina.style.left = r.x + '%'; pinRuina.style.top = r.y + '%'; 
+                            pinRuina.onclick = () => { abrirVentanaAtaque(rId, "Ruina Antigua", r.x, r.y, true); }; visualDiv.appendChild(pinRuina);
+                            listaDiv.innerHTML += `<div class="jugador-card" style="border-color:#7f8c8d;"><b style="color:#bdc3c7">🔘 Ruina Antigua</b><br>📍 [${r.x}|${r.y}] <button onclick="abrirVentanaAtaque('${rId}','Ruina Antigua',${r.x},${r.y},true)" class="btn-gris" style="padding:5px; width:auto; float:right;">Saquear</button></div>`;
+                        });
+                    }
+                });
+            });
+        }
+        document.getElementById('btn-actualizar-mapa').onclick = () => { cargarMapa(); };
+
+        window.abrirVentanaAtaque = (idEnemigo, nombreEnemigo, xEnemigo, yEnemigo, esRuin) => {
+            if (mov.est !== "") return mostrarAviso("No puedes enviar más tropas, ya tienes una legión en marcha.");
+            objId = idEnemigo; objN = nombreEnemigo; objR = esRuin;
+            
+            const distanciaCalculada = Math.sqrt(Math.pow(xEnemigo - miX, 2) + Math.pow(yEnemigo - miY, 2));
+            tViaje = Math.max(5, Math.floor(distanciaCalculada * 3));
+            
+            document.getElementById('modal-nombre-enemigo').innerText = "Declarar Guerra: " + nombreEnemigo; document.getElementById('modal-tiempo').innerText = tViaje; document.getElementById('modal-distancia').innerText = Math.floor(distanciaCalculada);
+            document.getElementById('max-lan').innerText = tropas.lanceros; document.getElementById('send-lan').max = tropas.lanceros; document.getElementById('send-lan').value = 0;
+            document.getElementById('max-arq').innerText = tropas.arqueros; document.getElementById('send-arq').max = tropas.arqueros; document.getElementById('send-arq').value = 0;
+            document.getElementById('max-cab').innerText = tropas.caballos; document.getElementById('send-cab').max = tropas.caballos; document.getElementById('send-cab').value = 0;
+            document.getElementById('max-eli').innerText = tropas.elite; document.getElementById('send-eli').max = tropas.elite; document.getElementById('send-eli').value = 0;
+            
+            document.getElementById('modal-ataque').style.display = 'block';
+        };
+
+        document.getElementById('btn-confirmar-ataque').onclick = () => {
+            const envioLan = parseInt(document.getElementById('send-lan').value) || 0; const envioArq = parseInt(document.getElementById('send-arq').value) || 0; const envioCab = parseInt(document.getElementById('send-cab').value) || 0; const envioEli = parseInt(document.getElementById('send-eli').value) || 0;
+            
+            if (envioLan + envioArq + envioCab + envioEli <= 0) return mostrarAviso("Debes seleccionar al menos un guerrero para la campaña.");
+            
+            update(ref(db, 'usuarios/' + miUid), { lanceros: tropas.lanceros - envioLan, arqueros: tropas.arqueros - envioArq, caballos: tropas.caballos - envioCab, elite: tropas.elite - envioEli, mov_est: "ida", mov_fin: Date.now() + (tViaje * 1000), mov_oId: objId, mov_oN: objN, mov_isR: objR, mov_lan: envioLan, mov_arq: envioArq, mov_cab: envioCab, mov_eli: envioEli });
+            document.getElementById('modal-ataque').style.display = 'none'; mostrarAviso("⚔️ Suenan los tambores de guerra. Tropas en marcha.");
+        };
+
+        document.getElementById('btn-cancelar-ataque').onclick = () => { document.getElementById('modal-ataque').style.display = 'none'; };
+
+        function cargarRanking(modoClasificacion) {
+            document.getElementById('btn-rank-jugadores').className = modoClasificacion === 'jugadores' ? 'btn-azul' : 'btn-gris'; 
+            document.getElementById('btn-rank-tribus').className = modoClasificacion === 'tribus' ? 'btn-azul' : 'btn-gris';
+            const listadoHtml = document.getElementById('lista-ranking'); listadoHtml.innerHTML = "<p>Calculando el poder del reino...</p>";
+            
+            get(ref(db, 'usuarios')).then((snapRanking) => {
+                let listaJugadores = []; let listaTribus = {};
+                snapRanking.forEach((nodoHijo) => {
+                    const jug = nodoHijo.val(); 
+                    const puntosTotales = (jug.nivel_aserradero || 0) + (jug.nivel_mina || 0) + (jug.nivel_granja || 0) + (jug.nivel_almacen || 0) + (jug.nivel_cuartel || 0) + (jug.nivel_galeria || 0) + (jug.nivel_establo || 0) + (jug.nivel_academia || 0) + (jug.nivel_muralla || 0) + (jug.nivel_mercado || 0);
+                    const nombreFormateado = jug.tribu ? `[${jug.tribu}] ${jug.nombre_aldea || jug.nombre}` : (jug.nombre_aldea || jug.nombre);
+                    
+                    listaJugadores.push({ nombreDisplay: nombreFormateado, puntosObj: puntosTotales });
+                    if (jug.tribu) { 
+                        if (!listaTribus[jug.tribu]) listaTribus[jug.tribu] = { n: jug.tribu, p: 0, m: 0 }; 
+                        listaTribus[jug.tribu].p += puntosTotales; listaTribus[jug.tribu].m += 1; 
+                    }
+                });
+                
+                if (modoClasificacion === 'jugadores') {
+                    listaJugadores.sort((a, b) => b.puntosObj - a.puntosObj); listadoHtml.innerHTML = "";
+                    listaJugadores.forEach((jugadorData, indexRank) => { 
+                        let iconoMedalla = "";
+                        if (indexRank === 0) iconoMedalla = "🥇"; else if (indexRank === 1) iconoMedalla = "🥈"; else if (indexRank === 2) iconoMedalla = "🥉"; else iconoMedalla = `<b>#${indexRank + 1}</b>`;
+                        listadoHtml.innerHTML += `<div class="jugador-card" style="display: flex; justify-content: space-between;"><span>${iconoMedalla} ${jugadorData.nombreDisplay}</span><b style="color: #f1c40f;">⭐ ${jugadorData.puntosObj}</b></div>`; 
+                    });
+                } else {
+                    let arrayTribusFinal = Object.values(listaTribus).sort((a, b) => b.p - a.p); listadoHtml.innerHTML = "";
+                    if (arrayTribusFinal.length === 0) listadoHtml.innerHTML = "<p style='color:#bcaaa4; font-style:italic;'>Ningún estandarte se alza en este reino aún.</p>";
+                    else arrayTribusFinal.forEach((tribuData, indexTribuRank) => { 
+                        let iconoMedallaTribu = "";
+                        if (indexTribuRank === 0) iconoMedallaTribu = "🥇"; else if (indexTribuRank === 1) iconoMedallaTribu = "🥈"; else if (indexTribuRank === 2) iconoMedallaTribu = "🥉"; else iconoMedallaTribu = `<b>#${indexTribuRank + 1}</b>`;
+                        listadoHtml.innerHTML += `<div class="jugador-card" style="border-color: #ce93d8; display: flex; justify-content: space-between;"><span>${iconoMedallaTribu} <span class="tribu-tag">[${tribuData.n}]</span> (${tribuData.m}👤)</span><b style="color: #f1c40f;">⭐ ${tribuData.p}</b></div>`; 
+                    });
+                }
+            });
+        }
+        document.getElementById('btn-rank-jugadores').onclick = () => { cargarRanking('jugadores'); };
+        document.getElementById('btn-rank-tribus').onclick = () => { cargarRanking('tribus'); };
+
+        function cargarInformes() {
+            const listadoInformesHtml = document.getElementById('lista-informes'); listadoInformesHtml.innerHTML = "<p>Desenrollando pergaminos de los escribas...</p>";
+            get(ref(db, 'informes/' + miUid)).then((snapDataInf) => {
+                listadoInformesHtml.innerHTML = ""; 
+                if(!snapDataInf.exists()) return listadoInformesHtml.innerHTML = "<p style='color:#bcaaa4; font-size:12px; font-style:italic;'>La paz reina en tus tierras. No hay sangre derramada.</p>";
+                
+                let arrayDeInformes = []; snapDataInf.forEach(hijoInfo => { arrayDeInformes.push(hijoInfo.val()); }); arrayDeInformes.reverse(); 
+                arrayDeInformes.forEach(infoSingular => {
+                    const fechaAmigable = new Date(infoSingular.fecha).toLocaleString(); const colorClaseCss = infoSingular.victoria ? "informe-vic" : "informe-der"; const textoTitulo = infoSingular.victoria ? "🏆 VICTORIA" : "💀 DERROTA";
+                    listadoInformesHtml.innerHTML += `<div class="informe-card ${colorClaseCss}"><b>${textoTitulo}</b> - ${fechaAmigable}<br><span style="font-size: 11px; color: #bcaaa4;">Atacante: <b style="color:#fff;">${infoSingular.atacante}</b> ⚔️ Defensor: <b style="color:#fff;">${infoSingular.defensor}</b></span><br><div style="margin-top: 5px; background: #260e0e; padding: 5px; border-radius: 2px; border: 1px solid #3e2723;">🪵 ${infoSingular.botin_m} | ⛏️ ${infoSingular.botin_h} | 🌾 ${infoSingular.botin_c}</div></div>`;
+                });
+            });
+        }
+        document.getElementById('btn-actualizar-informes').onclick = () => { cargarInformes(); };
+
+        // Ajustes y Peligro
+        document.getElementById('btn-unirse-tribu').onclick = () => { 
+            const etiquetaInput = document.getElementById('input-tribu').value.trim().toUpperCase(); 
+            if (etiquetaInput.length > 0 && etiquetaInput.length <= 5) update(ref(db, 'usuarios/' + miUid), { tribu: etiquetaInput }).then(() => mostrarAviso(`¡Has jurado lealtad a la Alianza [${etiquetaInput}]!`)); 
+            else mostrarAviso("El sello de la Alianza debe tener 5 letras como máximo."); 
+        };
+        document.getElementById('btn-abandonar-tribu').onclick = () => { mostrarConfirmacion("¿Estás seguro de traicionar tu juramento y abandonar la Alianza?", () => { update(ref(db, 'usuarios/' + miUid), { tribu: "" }); }); };
+        document.getElementById('btn-renombrar').onclick = () => { 
+            const nombreNuevoInput = document.getElementById('nuevo-nombre-aldea').value; 
+            if (nombreNuevoInput.trim() !== "") update(ref(db, 'usuarios/' + miUid), { nombre_aldea: nombreNuevoInput }).then(() => mostrarAviso("Los mapas reales han sido actualizados con tu nuevo nombre.")); 
+        };
+        document.getElementById('btn-reiniciar').onclick = () => { 
+            mostrarConfirmacion("MAGIA OSCURA: Vas a reducir tu imperio a cenizas perdiendo TODO. ¿Empezar de cero?", () => {
+                update(ref(db, 'usuarios/' + miUid), { madera: 500, hierro: 500, comida: 500, nivel_aserradero: 1, nivel_mina: 0, nivel_granja: 0, nivel_almacen: 0, nivel_mercado: 0, nivel_muralla: 0, nivel_cuartel: 0, nivel_galeria: 0, nivel_establo: 0, nivel_academia: 0, lanceros: 0, arqueros: 0, caballos: 0, elite: 0, upg_b: "", mov_est: "" }).then(() => { mostrarAviso("Tu aldea ha renacido. Escribe tu leyenda de nuevo."); }); 
+            });
+        };
+        document.getElementById('btn-borrar-cuenta').onclick = () => { 
+            mostrarConfirmacion("Destrucción Total: Vas a borrar tu existencia de los archivos del reino para siempre. ¿Continuar?", () => { remove(ref(db, 'usuarios/' + miUid)).then(() => deleteUser(auth.currentUser)); });
+        };
+
+    </script>
+</body>
+</html>
