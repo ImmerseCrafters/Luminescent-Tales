@@ -157,17 +157,9 @@
                 <h4 style="margin: 0 0 5px 0; color: #ffeb3b;">⚖️ Mercado Real (Tasa 2:1)</h4>
                 <p style="font-size: 11px; color: #d7ccc8;">Entrega 2 unidades de un recurso por 1 de otro.</p>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                    <select id="trade-from" style="width: 40%;">
-                        <option value="madera">🪵 Madera</option>
-                        <option value="hierro">⛏️ Hierro</option>
-                        <option value="comida">🌾 Comida</option>
-                    </select>
+                    <select id="trade-from" style="width: 40%;"><option value="madera">🪵 Madera</option><option value="hierro">⛏️ Hierro</option><option value="comida">🌾 Comida</option></select>
                     <span style="font-weight: bold; color: #b08d57;"> ➡️ </span>
-                    <select id="trade-to" style="width: 40%;">
-                        <option value="hierro">⛏️ Hierro</option>
-                        <option value="madera">🪵 Madera</option>
-                        <option value="comida">🌾 Comida</option>
-                    </select>
+                    <select id="trade-to" style="width: 40%;"><option value="hierro">⛏️ Hierro</option><option value="madera">🪵 Madera</option><option value="comida">🌾 Comida</option></select>
                 </div>
                 <input type="number" id="trade-amount" placeholder="Cantidad a pagar (Ej: 200)" min="2" step="2" style="width: 100%; text-align: center;">
                 <button id="btn-trade" class="btn-naranja">Intercambiar Recursos</button>
@@ -176,36 +168,11 @@
             <h4 style="margin-bottom: 5px; color: #8bc34a; text-align: left;">Cimientos Económicos</h4>
             <p id="txt-construyendo" style="color: #ffeb3b; font-size: 12px; display: none;">🔨 Constructor ocupado: <span id="val-construyendo"></span></p>
 
-            <div class="edificio-panel">
-                <h4 class="titulo-edificio">📦 Almacén (Nv. <span id="niv-almacen">0</span>)</h4>
-                <button id="btn-up-almacen" class="btn-azul">
-                    <span id="txt-almacen">...</span> (<span id="coste-m-almacen">0</span>🪵 <span id="coste-h-almacen">0</span>⛏️) ⏱️<span id="t-alm"></span>s
-                </button>
-            </div>
-            <div class="edificio-panel">
-                <h4 class="titulo-edificio">🪵 Aserradero (Nv. <span id="niv-aserradero">0</span>)</h4>
-                <button id="btn-up-aserradero" class="btn-azul">
-                    <span id="txt-aserradero">...</span> (<span id="coste-m-aserradero">0</span> 🪵) ⏱️<span id="t-ase"></span>s
-                </button>
-            </div>
-            <div class="edificio-panel">
-                <h4 class="titulo-edificio">⛏️ Mina de Hierro (Nv. <span id="niv-mina">0</span>)</h4>
-                <button id="btn-up-mina" class="btn-azul">
-                    <span id="txt-mina">...</span> (<span id="coste-m-mina">0</span> 🪵) ⏱️<span id="t-min"></span>s
-                </button>
-            </div>
-            <div class="edificio-panel">
-                <h4 class="titulo-edificio">🌾 Granja (Nv. <span id="niv-granja">0</span>)</h4>
-                <button id="btn-up-granja" class="btn-azul">
-                    <span id="txt-granja">...</span> (<span id="coste-m-granja">0</span>🪵 <span id="coste-h-granja">0</span>⛏️) ⏱️<span id="t-gra"></span>s
-                </button>
-            </div>
-            <div class="edificio-panel" style="border-color: #b08d57;">
-                <h4 class="titulo-edificio" style="color:#b08d57;">⚖️ Mercado (Nv. <span id="niv-mercado">0</span>)</h4>
-                <button id="btn-up-mercado" class="btn-azul">
-                    <span id="txt-mercado">...</span> (<span id="coste-m-mercado">0</span>🪵 <span id="coste-h-mercado">0</span>⛏️) ⏱️<span id="t-mer"></span>s
-                </button>
-            </div>
+            <div class="edificio-panel"><h4 class="titulo-edificio">📦 Almacén (Nv. <span id="niv-almacen">0</span>)</h4><button id="btn-up-almacen" class="btn-azul"><span id="txt-almacen">...</span> (<span id="coste-m-almacen">0</span>🪵 <span id="coste-h-almacen">0</span>⛏️) ⏱️<span id="t-alm"></span>s</button></div>
+            <div class="edificio-panel"><h4 class="titulo-edificio">🪵 Aserradero (Nv. <span id="niv-aserradero">0</span>)</h4><button id="btn-up-aserradero" class="btn-azul"><span id="txt-aserradero">...</span> (<span id="coste-m-aserradero">0</span> 🪵) ⏱️<span id="t-ase"></span>s</button></div>
+            <div class="edificio-panel"><h4 class="titulo-edificio">⛏️ Mina de Hierro (Nv. <span id="niv-mina">0</span>)</h4><button id="btn-up-mina" class="btn-azul"><span id="txt-mina">...</span> (<span id="coste-m-mina">0</span> 🪵) ⏱️<span id="t-min"></span>s</button></div>
+            <div class="edificio-panel"><h4 class="titulo-edificio">🌾 Granja (Nv. <span id="niv-granja">0</span>)</h4><button id="btn-up-granja" class="btn-azul"><span id="txt-granja">...</span> (<span id="coste-m-granja">0</span>🪵 <span id="coste-h-granja">0</span>⛏️) ⏱️<span id="t-gra"></span>s</button></div>
+            <div class="edificio-panel" style="border-color: #b08d57;"><h4 class="titulo-edificio" style="color:#b08d57;">⚖️ Mercado (Nv. <span id="niv-mercado">0</span>)</h4><button id="btn-up-mercado" class="btn-azul"><span id="txt-mercado">...</span> (<span id="coste-m-mercado">0</span>🪵 <span id="coste-h-mercado">0</span>⛏️) ⏱️<span id="t-mer"></span>s</button></div>
         </div>
 
         <div id="ejercito-tab" style="display: none;">
@@ -225,54 +192,15 @@
 
             <h4 style="margin-bottom: 5px; color: #e57373; text-align: left;">Baluartes Militares</h4>
 
-            <div class="militar-panel" style="border-color: #b08d57; border-width: 2px;">
-                <h4 class="titulo-edificio">🛡️ Gran Muralla (Nv. <span id="niv-muralla">0</span>)</h4>
-                <p class="info-prod">Fortaleza de Defensa: +<span id="val-bono-def">0</span>%</p>
-                <button id="btn-up-muralla" class="btn-rojo">
-                    <span id="txt-muralla">...</span> (<span id="c-m-mur">0</span>🪵 <span id="c-h-mur">0</span>⛏️) ⏱️<span id="t-mur"></span>s
-                </button>
-            </div>
-
-            <div class="militar-panel">
-                <h4 class="titulo-edificio">⚔️ Cuartel (Nv. <span id="niv-cuartel">0</span>)</h4>
-                <button id="btn-up-cuartel" class="btn-rojo">
-                    <span id="txt-cuartel">...</span> (<span id="c-m-cua">0</span>🪵 <span id="c-h-cua">0</span>⛏️) ⏱️<span id="t-cua"></span>s
-                </button>
-                <div id="zona-lanceros" style="display: none; margin-top:10px;">
-                    <button id="btn-rec-lancero" class="btn-negro">...</button>
-                </div>
-            </div>
-            <div class="militar-panel">
-                <h4 class="titulo-edificio">🎯 Galería de Tiro (Nv. <span id="niv-galeria">0</span>)</h4>
-                <button id="btn-up-galeria" class="btn-rojo">
-                    <span id="txt-galeria">...</span> (<span id="c-m-gal">0</span>🪵 <span id="c-h-gal">0</span>⛏️) ⏱️<span id="t-gal"></span>s
-                </button>
-                <div id="zona-arqueros" style="display: none; margin-top:10px;">
-                    <button id="btn-rec-arquero" class="btn-negro">...</button>
-                </div>
-            </div>
-            <div class="militar-panel">
-                <h4 class="titulo-edificio">🐎 Establo (Nv. <span id="niv-establo">0</span>)</h4>
-                <button id="btn-up-establo" class="btn-rojo">
-                    <span id="txt-establo">...</span> (<span id="c-m-est">0</span>🪵 <span id="c-h-est">0</span>⛏️) ⏱️<span id="t-est"></span>s
-                </button>
-                <div id="zona-caballos" style="display: none; margin-top:10px;">
-                    <button id="btn-rec-caballo" class="btn-negro">...</button>
-                </div>
-            </div>
-            <div class="militar-panel">
-                <h4 class="titulo-edificio">👑 Academia Real (Nv. <span id="niv-academia">0</span>)</h4>
-                <button id="btn-up-academia" class="btn-rojo">
-                    <span id="txt-academia">...</span> (<span id="c-m-aca">0</span>🪵 <span id="c-h-aca">0</span>⛏️) ⏱️<span id="t-aca"></span>s
-                </button>
-                <div id="zona-elite" style="display: none; margin-top:10px;">
-                    <button id="btn-rec-elite" class="btn-negro">...</button>
-                </div>
-            </div>
+            <div class="militar-panel" style="border-color: #b08d57; border-width: 2px;"><h4 class="titulo-edificio">🛡️ Gran Muralla (Nv. <span id="niv-muralla">0</span>)</h4><p class="info-prod">Fortaleza de Defensa: +<span id="val-bono-def">0</span>%</p><button id="btn-up-muralla" class="btn-rojo"><span id="txt-muralla">...</span> (<span id="c-m-mur">0</span>🪵 <span id="c-h-mur">0</span>⛏️) ⏱️<span id="t-mur"></span>s</button></div>
+            <div class="militar-panel"><h4 class="titulo-edificio">⚔️ Cuartel (Nv. <span id="niv-cuartel">0</span>)</h4><button id="btn-up-cuartel" class="btn-rojo"><span id="txt-cuartel">...</span> (<span id="c-m-cua">0</span>🪵 <span id="c-h-cua">0</span>⛏️) ⏱️<span id="t-cua"></span>s</button><div id="zona-lanceros" style="display: none; margin-top:10px;"><button id="btn-rec-lancero" class="btn-negro">...</button></div></div>
+            <div class="militar-panel"><h4 class="titulo-edificio">🎯 Galería de Tiro (Nv. <span id="niv-galeria">0</span>)</h4><button id="btn-up-galeria" class="btn-rojo"><span id="txt-galeria">...</span> (<span id="c-m-gal">0</span>🪵 <span id="c-h-gal">0</span>⛏️) ⏱️<span id="t-gal"></span>s</button><div id="zona-arqueros" style="display: none; margin-top:10px;"><button id="btn-rec-arquero" class="btn-negro">...</button></div></div>
+            <div class="militar-panel"><h4 class="titulo-edificio">🐎 Establo (Nv. <span id="niv-establo">0</span>)</h4><button id="btn-up-establo" class="btn-rojo"><span id="txt-establo">...</span> (<span id="c-m-est">0</span>🪵 <span id="c-h-est">0</span>⛏️) ⏱️<span id="t-est"></span>s</button><div id="zona-caballos" style="display: none; margin-top:10px;"><button id="btn-rec-caballo" class="btn-negro">...</button></div></div>
+            <div class="militar-panel"><h4 class="titulo-edificio">👑 Academia Real (Nv. <span id="niv-academia">0</span>)</h4><button id="btn-up-academia" class="btn-rojo"><span id="txt-academia">...</span> (<span id="c-m-aca">0</span>🪵 <span id="c-h-aca">0</span>⛏️) ⏱️<span id="t-aca"></span>s</button><div id="zona-elite" style="display: none; margin-top:10px;"><button id="btn-rec-elite" class="btn-negro">...</button></div></div>
         </div>
 
         <div id="mapa-tab" style="display: none;">
-            <h3 style="color: #f1c40f;">🌍 El Reino Conocido</h3>
+            <h3 style="color: #f1c40f;">🌍 El Reino Conocido (500x500)</h3>
             <p style="font-size: 12px; color: #bdc3c7; font-style: italic;">🟡 Tú | 🔴 Jugadores | 🔘 Ruinas</p>
             <div id="mapa-visual" class="contenedor-mapa"></div>
             <button id="btn-actualizar-mapa" class="btn-azul">🔄 Explorar Horizonte</button>
@@ -296,11 +224,9 @@
                 <button id="btn-abandonar-tribu" class="btn-rojo" style="margin-bottom: 15px;">Romper Juramento</button>
 
                 <h4 style="margin: 15px 0 5px 0; color: #64b5f6; border-top: 1px solid #5d4037; padding-top:10px;">💬 Mensajeros</h4>
-                <div id="chat-box" class="chat-container">
-                    <p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Enviando cuervos...</p>
-                </div>
+                <div id="chat-box" class="chat-container"><p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Enviando cuervos...</p></div>
                 <div style="display: flex; gap: 5px;">
-                    <input type="text" id="input-chat" placeholder="Escribe a tus hermanos de armas..." style="width: 75%; margin: 0; padding: 8px;">
+                    <input type="text" id="input-chat" placeholder="Escribe a tus hermanos..." style="width: 75%; margin: 0; padding: 8px;">
                     <button id="btn-enviar-chat" class="btn-azul" style="width: 25%; margin: 0; padding: 8px;">Enviar</button>
                 </div>
             </div>
@@ -323,22 +249,13 @@
         <div id="ajustes-tab" style="display: none;">
             <h3 style="color: #bcaaa4; margin-top: 0;">⚙️ Configuración del Reino</h3>
             
-            <div class="seccion-panel">
-                <h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4>
-                <p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.38</p>
-            </div>
-
-            <div class="seccion-panel">
-                <h4 style="margin: 0 0 5px 0;">Sello de Identidad</h4>
-                <input type="text" id="nuevo-nombre-aldea" placeholder="Renombrar provincia">
-                <button id="btn-renombrar" class="btn-naranja">Grabar Nuevo Nombre</button>
-            </div>
-            <div class="seccion-panel">
-                <button id="btn-logout" class="btn-gris">Dormir (Cerrar Sesión)</button>
-            </div>
+            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4><p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.40</p></div>
+            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">Sello de Identidad</h4><input type="text" id="nuevo-nombre-aldea" placeholder="Renombrar provincia"><button id="btn-renombrar" class="btn-naranja">Grabar Nuevo Nombre</button></div>
+            <div class="seccion-panel"><button id="btn-logout" class="btn-gris">Dormir (Cerrar Sesión)</button></div>
+            
             <div class="peligro-panel" style="margin-top: 20px;">
                 <h4 style="color: #ff5252; margin: 0 0 10px 0;">⚠️ Magia Oscura (Peligro)</h4>
-                <button id="btn-reiniciar" class="btn-naranja">🔄 Arrasar y Reconstruir (Empezar Cero)</button>
+                <button id="btn-reiniciar" class="btn-naranja">🔄 Arrasar y Reconstruir</button>
                 <button id="btn-borrar-cuenta" class="btn-negro" style="margin-top: 15px;">❌ Destruir Cuenta para Siempre</button>
             </div>
         </div>
@@ -360,25 +277,11 @@
     <div id="modal-ataque" class="modal-overlay">
         <div class="modal-content">
             <h3 id="modal-nombre-enemigo" style="margin-top:0;">Declarar Guerra</h3>
-            <p style="font-size:12px; color: #8b1c1c; font-weight: bold; border-bottom: 1px solid #5d4037; padding-bottom: 5px;">
-                Distancia: <span id="modal-distancia">0</span> leguas | Ida: ⏱️ <span id="modal-tiempo">0</span>s
-            </p>
-            <div class="fila-tropa">
-                <span>🗡️ Lanceros (F:1 | C:10)</span>
-                <div><input type="number" id="send-lan" class="input-tropa" value="0" min="0"> / <span id="max-lan">0</span></div>
-            </div>
-            <div class="fila-tropa">
-                <span>🏹 Arqueros (F:2 | C:15)</span>
-                <div><input type="number" id="send-arq" class="input-tropa" value="0" min="0"> / <span id="max-arq">0</span></div>
-            </div>
-            <div class="fila-tropa">
-                <span>🐎 Caballería (F:3 | C:50)</span>
-                <div><input type="number" id="send-cab" class="input-tropa" value="0" min="0"> / <span id="max-cab">0</span></div>
-            </div>
-            <div class="fila-tropa">
-                <span>👑 Élite (F:4 | C:30)</span>
-                <div><input type="number" id="send-eli" class="input-tropa" value="0" min="0"> / <span id="max-eli">0</span></div>
-            </div>
+            <p style="font-size:12px; color: #8b1c1c; font-weight: bold; border-bottom: 1px solid #5d4037; padding-bottom: 5px;">Distancia: <span id="modal-distancia">0</span> leguas | Ida: ⏱️ <span id="modal-tiempo">0</span>s</p>
+            <div class="fila-tropa"><span>🗡️ Lanceros (F:1 | C:10)</span><div><input type="number" id="send-lan" class="input-tropa" value="0" min="0"> / <span id="max-lan">0</span></div></div>
+            <div class="fila-tropa"><span>🏹 Arqueros (F:2 | C:15)</span><div><input type="number" id="send-arq" class="input-tropa" value="0" min="0"> / <span id="max-arq">0</span></div></div>
+            <div class="fila-tropa"><span>🐎 Caballería (F:3 | C:50)</span><div><input type="number" id="send-cab" class="input-tropa" value="0" min="0"> / <span id="max-cab">0</span></div></div>
+            <div class="fila-tropa"><span>👑 Élite (F:4 | C:30)</span><div><input type="number" id="send-eli" class="input-tropa" value="0" min="0"> / <span id="max-eli">0</span></div></div>
             <button id="btn-confirmar-ataque" class="btn-rojo" style="margin-top: 15px; padding: 12px; font-size: 16px;">🔥 MARCHAR A LA GUERRA</button>
             <button id="btn-cancelar-ataque" class="btn-gris">Retirada</button>
         </div>
@@ -389,17 +292,13 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, onValue, set, get, update, remove, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // ==========================================
-        // 1. SISTEMA DE ALERTAS (MENSAJES REALES)
-        // ==========================================
+        // 1. SISTEMA DE ALERTAS
         window.mostrarAviso = (texto) => {
             document.getElementById('aviso-texto').innerText = texto;
             document.getElementById('btn-aviso-cancel').style.display = 'none';
             document.getElementById('btn-aviso-ok').style.width = '100%';
             document.getElementById('btn-aviso-ok').innerText = 'Sellar Pergamino';
-            document.getElementById('btn-aviso-ok').onclick = () => { 
-                document.getElementById('modal-aviso').style.display = 'none'; 
-            };
+            document.getElementById('btn-aviso-ok').onclick = () => { document.getElementById('modal-aviso').style.display = 'none'; };
             document.getElementById('modal-aviso').style.display = 'block';
         };
 
@@ -410,19 +309,12 @@
             document.getElementById('btn-aviso-cancel').style.width = '48%';
             document.getElementById('btn-aviso-ok').innerText = 'Aceptar';
             
-            document.getElementById('btn-aviso-ok').onclick = () => { 
-                document.getElementById('modal-aviso').style.display = 'none'; 
-                callback(); 
-            };
-            document.getElementById('btn-aviso-cancel').onclick = () => { 
-                document.getElementById('modal-aviso').style.display = 'none'; 
-            };
+            document.getElementById('btn-aviso-ok').onclick = () => { document.getElementById('modal-aviso').style.display = 'none'; callback(); };
+            document.getElementById('btn-aviso-cancel').onclick = () => { document.getElementById('modal-aviso').style.display = 'none'; };
             document.getElementById('modal-aviso').style.display = 'block';
         };
 
-        // ==========================================
         // 2. CONFIGURACIÓN FIREBASE
-        // ==========================================
         const firebaseConfig = {
   apiKey: "AIzaSyCBf-dyHTPnzlFCm4VG-lnZZj1yOy-dlU4",
   authDomain: "luminescent-tales.firebaseapp.com",
@@ -438,7 +330,6 @@
         const db = getDatabase(app);
         
         let miUid = ""; let miNombre = ""; let miAlianza = ""; let miX = 0; let miY = 0;
-        
         let baseRes = { m: 500, h: 500, c: 500 };
         let currentRes = { m: 0, h: 0, c: 0 };
         let baseTs = Date.now();
@@ -460,9 +351,7 @@
         window.currentChatAlianza = "";
         let mainInterval = null;
 
-        // ==========================================
         // 3. NAVEGACIÓN Y TABS
-        // ==========================================
         function cambiarPestana(name) {
             const tabs = ['aldea', 'ejercito', 'mapa', 'tribu', 'informes', 'ajustes'];
             tabs.forEach(t => {
@@ -486,8 +375,7 @@
 
         function setMultiplicador(m) { 
             mult = m; 
-            const opciones = [1, 5, 10];
-            opciones.forEach(x => { 
+            [1, 5, 10].forEach(x => { 
                 const boton = document.getElementById('btn-x' + x); 
                 boton.className = x === m ? 'btn-mult btn-mult-activo' : 'btn-mult'; 
                 boton.style.color = x === m ? '#1a120b' : '#b08d57';
@@ -499,9 +387,7 @@
         document.getElementById('btn-x5').onclick = () => setMultiplicador(5); 
         document.getElementById('btn-x10').onclick = () => setMultiplicador(10);
 
-        // ==========================================
         // 4. AUTENTICACIÓN
-        // ==========================================
         document.getElementById('btn-registro').onclick = () => {
             const email = document.getElementById('email').value; 
             const pass = document.getElementById('pass').value;
@@ -509,12 +395,8 @@
             
             createUserWithEmailAndPassword(auth, email, pass).then((userCredential) => {
                 set(ref(db, 'usuarios/' + userCredential.user.uid), {
-                    nombre: email.split('@')[0], 
-                    nombre_aldea: nombreAldea, 
-                    tribu: "", 
-                    baneado: false, // Por defecto nadie está baneado
-                    coord_x: Math.floor(Math.random() * 100) + 1, 
-                    coord_y: Math.floor(Math.random() * 100) + 1, 
+                    nombre: email.split('@')[0], nombre_aldea: nombreAldea, tribu: "", baneado: false,
+                    coord_x: Math.floor(Math.random() * 500) + 1, coord_y: Math.floor(Math.random() * 500) + 1, 
                     madera: 500, hierro: 500, comida: 500, 
                     nivel_aserradero: 1, nivel_mina: 0, nivel_granja: 0, nivel_almacen: 0, nivel_mercado: 0, 
                     nivel_cuartel: 0, nivel_galeria: 0, nivel_establo: 0, nivel_academia: 0, nivel_muralla: 0, 
@@ -522,21 +404,17 @@
                     entr_lan: 0, entr_lan_qty: 1, entr_arq: 0, entr_arq_qty: 1, entr_cab: 0, entr_cab_qty: 1, entr_eli: 0, entr_eli_qty: 1,
                     upg_b: "", upg_end: 0, mov_est: "", ultima_actualizacion: Date.now()
                 });
-            }).catch(err => mostrarAviso("Los magos reportan un error al registrarse: " + err.message));
+            }).catch(err => mostrarAviso("Los magos reportan un error: " + err.message));
         };
 
         document.getElementById('btn-login').onclick = () => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('pass').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(e => mostrarAviso("Las puertas están cerradas. Error al entrar: " + e.message));
+            signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('pass').value).catch(e => mostrarAviso("Las puertas están cerradas. Error: " + e.message));
         };
 
         document.getElementById('btn-logout').onclick = () => signOut(auth);
         document.getElementById('btn-logout-ban').onclick = () => signOut(auth);
 
-        // ==========================================
         // 5. CHAT DE ALIANZA
-        // ==========================================
         function iniciarChatAlianza(tag) {
             const chatRef = ref(db, 'chat_alianza/' + tag);
             onValue(chatRef, (snap) => {
@@ -567,89 +445,55 @@
             }
         };
 
-        // ==========================================
-        // 6. SINCRONIZACIÓN DE LA BASE DE DATOS (INCLUYE BANEO)
-        // ==========================================
+        // 6. LECTOR BASE DE DATOS (ONVALUE)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 miUid = user.uid; 
                 document.getElementById('auth-section').style.display = 'none'; 
                 
-                // Guardado automático periódico
                 setInterval(() => {
                     if(!isNaN(currentRes.m)) {
-                        update(ref(db, 'usuarios/' + miUid), { 
-                            madera: currentRes.m, 
-                            hierro: currentRes.h, 
-                            comida: currentRes.c, 
-                            ultima_actualizacion: Date.now() 
-                        }).then(() => { 
-                            document.getElementById('msg-autoguardado').style.display = 'block'; 
-                            setTimeout(() => { document.getElementById('msg-autoguardado').style.display = 'none'; }, 3000); 
-                        });
+                        update(ref(db, 'usuarios/' + miUid), { madera: currentRes.m, hierro: currentRes.h, comida: currentRes.c, ultima_actualizacion: Date.now() })
+                        .then(() => { document.getElementById('msg-autoguardado').style.display = 'block'; setTimeout(() => { document.getElementById('msg-autoguardado').style.display = 'none'; }, 3000); });
                     }
                 }, 60000);
 
-                // Lector Firebase principal
                 onValue(ref(db, 'usuarios/' + miUid), (snap) => {
-                    const d = snap.val(); 
-                    if(!d) return;
+                    const d = snap.val(); if(!d) return;
 
-                    // ====== SISTEMA DE EXILIO (BANEO) ======
+                    // ====== SISTEMA DE BANEO ======
                     if (d.baneado === true) {
-                        // Ocultamos el juego, mostramos la pantalla de ban y apagamos el motor
                         document.getElementById('game-section').style.display = 'none';
                         document.getElementById('ban-section').style.display = 'block';
-                        if (mainInterval) {
-                            clearInterval(mainInterval);
-                            mainInterval = null;
-                        }
-                        return; // Salimos de la función, no cargamos nada más.
+                        if (mainInterval) { clearInterval(mainInterval); mainInterval = null; }
+                        return; 
                     } else {
-                        // El jugador es legal, mostramos el juego
                         document.getElementById('ban-section').style.display = 'none';
                         document.getElementById('game-section').style.display = 'block';
-                        
-                        // Si es la primera vez que carga y las pestañas están ocultas, abrimos "Aldea"
                         if (document.getElementById('aldea-tab').style.display === 'none' && document.getElementById('ejercito-tab').style.display === 'none' && document.getElementById('mapa-tab').style.display === 'none' && document.getElementById('tribu-tab').style.display === 'none' && document.getElementById('informes-tab').style.display === 'none' && document.getElementById('ajustes-tab').style.display === 'none') {
                             cambiarPestana('aldea');
                         }
                     }
 
-                    // Actualizar Base de Recursos y Tiempos
-                    baseRes.m = parseFloat(d.madera) || 0;
-                    baseRes.h = parseFloat(d.hierro) || 0;
-                    baseRes.c = parseFloat(d.comida) || 0;
+                    baseRes.m = parseFloat(d.madera) || 0; baseRes.h = parseFloat(d.hierro) || 0; baseRes.c = parseFloat(d.comida) || 0;
                     baseTs = d.ultima_actualizacion || Date.now();
 
-                    miX = d.coord_x || 0; 
-                    miY = d.coord_y || 0; 
-                    miAlianza = d.tribu || ""; 
-                    miNombre = d.nombre_aldea || d.nombre;
+                    miX = d.coord_x || 0; miY = d.coord_y || 0; miAlianza = d.tribu || ""; miNombre = d.nombre_aldea || d.nombre;
                     
                     if (miX === 0) { 
-                        miX = Math.floor(Math.random() * 100) + 1; 
-                        miY = Math.floor(Math.random() * 100) + 1; 
+                        miX = Math.floor(Math.random() * 500) + 1; miY = Math.floor(Math.random() * 500) + 1; 
                         update(ref(db, 'usuarios/' + miUid), { coord_x: miX, coord_y: miY }); 
                     }
                     
-                    document.getElementById('mi-x').innerText = miX; 
-                    document.getElementById('mi-y').innerText = miY;
+                    document.getElementById('mi-x').innerText = miX; document.getElementById('mi-y').innerText = miY;
                     document.getElementById('user-display').innerText = miNombre;
                     document.getElementById('aldea-display').innerText = miAlianza ? `[${miAlianza}] ${miNombre}` : miNombre;
                     
                     if(miAlianza) { 
-                        document.getElementById('con-tribu').style.display = 'block'; 
-                        document.getElementById('sin-tribu').style.display = 'none'; 
-                        document.getElementById('mi-etiqueta-tribu').innerText = miAlianza;
-                        if(window.currentChatAlianza !== miAlianza) {
-                            window.currentChatAlianza = miAlianza;
-                            iniciarChatAlianza(miAlianza);
-                        }
+                        document.getElementById('con-tribu').style.display = 'block'; document.getElementById('sin-tribu').style.display = 'none'; document.getElementById('mi-etiqueta-tribu').innerText = miAlianza;
+                        if(window.currentChatAlianza !== miAlianza) { window.currentChatAlianza = miAlianza; iniciarChatAlianza(miAlianza); }
                     } else { 
-                        document.getElementById('con-tribu').style.display = 'none'; 
-                        document.getElementById('sin-tribu').style.display = 'block'; 
-                        window.currentChatAlianza = "";
+                        document.getElementById('con-tribu').style.display = 'none'; document.getElementById('sin-tribu').style.display = 'block'; window.currentChatAlianza = "";
                     }
 
                     niv = { 
@@ -658,70 +502,42 @@
                         galeria: d.nivel_galeria || 0, establo: d.nivel_establo || 0, academia: d.nivel_academia || 0, muralla: d.nivel_muralla || 0 
                     };
                     
-                    prod.m = niv.aserradero * 1;
-                    prod.h = niv.mina * 0.5;
-                    prod.c = niv.granja * 2;
+                    // Ajuste Económico
+                    prod.m = niv.aserradero * 0.5;
+                    prod.h = niv.mina * 0.25;
+                    prod.c = niv.granja * 1;
                     limit = 1000 + (niv.almacen * 500);
 
                     tropas = { lanceros: d.lanceros||0, arqueros: d.arqueros||0, caballos: d.caballos||0, elite: d.elite||0 };
-                    ent = { 
-                        lan: d.entr_lan||0, lan_q: d.entr_lan_qty||1, 
-                        arq: d.entr_arq||0, arq_q: d.entr_arq_qty||1, 
-                        cab: d.entr_cab||0, cab_q: d.entr_cab_qty||1, 
-                        eli: d.entr_eli||0, eli_q: d.entr_eli_qty||1 
-                    };
+                    ent = { lan: d.entr_lan||0, lan_q: d.entr_lan_qty||1, arq: d.entr_arq||0, arq_q: d.entr_arq_qty||1, cab: d.entr_cab||0, cab_q: d.entr_cab_qty||1, eli: d.entr_eli||0, eli_q: d.entr_eli_qty||1 };
                     upg = { b: d.upg_b || "", end: d.upg_end || 0 };
-                    mov = { 
-                        est: d.mov_est || "", fin: d.mov_fin || 0, oId: d.mov_oId || "", oN: d.mov_oN || "", 
-                        isR: d.mov_isR || false, lan: d.mov_lan || 0, arq: d.mov_arq || 0, cab: d.mov_cab || 0, 
-                        eli: d.mov_eli || 0, bM: d.mov_bM || 0, bH: d.mov_bH || 0, bC: d.mov_bC || 0 
-                    };
+                    mov = { est: d.mov_est || "", fin: d.mov_fin || 0, oId: d.mov_oId || "", oN: d.mov_oN || "", isR: d.mov_isR || false, lan: d.mov_lan || 0, arq: d.mov_arq || 0, cab: d.mov_cab || 0, eli: d.mov_eli || 0, bM: d.mov_bM || 0, bH: d.mov_bH || 0, bC: d.mov_bC || 0 };
                     
                     let misPuntos = Object.values(niv).reduce((a, b) => a + b, 0);
                     document.getElementById('mis-puntos').innerText = misPuntos;
                     
                     actualizarTextosBotones();
 
-                    // Encendemos el motor si no está corriendo (y no está baneado)
-                    if (!mainInterval) {
-                        mainInterval = setInterval(bucleDeJuego, 1000);
-                    }
+                    if (!mainInterval) { mainInterval = setInterval(bucleDeJuego, 1000); }
                 });
             } else { 
-                document.getElementById('auth-section').style.display = 'block'; 
-                document.getElementById('game-section').style.display = 'none'; 
-                document.getElementById('ban-section').style.display = 'none'; 
-                if (mainInterval) {
-                    clearInterval(mainInterval);
-                    mainInterval = null;
-                }
+                document.getElementById('auth-section').style.display = 'block'; document.getElementById('game-section').style.display = 'none'; document.getElementById('ban-section').style.display = 'none'; 
+                if (mainInterval) { clearInterval(mainInterval); mainInterval = null; }
                 window.currentChatAlianza = "";
             }
         });
 
-        // ==========================================
-        // 7. DIBUJADO DE LA INTERFAZ (UI)
-        // ==========================================
+        // 7. ACTUALIZACIÓN VISUAL (UI)
         function actualizarTextosBotones() {
-            document.getElementById('val-lanceros').innerText = tropas.lanceros; 
-            document.getElementById('val-arqueros').innerText = tropas.arqueros;
-            document.getElementById('val-caballos').innerText = tropas.caballos; 
-            document.getElementById('val-elite').innerText = tropas.elite;
+            document.getElementById('val-lanceros').innerText = tropas.lanceros; document.getElementById('val-arqueros').innerText = tropas.arqueros;
+            document.getElementById('val-caballos').innerText = tropas.caballos; document.getElementById('val-elite').innerText = tropas.elite;
             
-            document.getElementById('limite-madera').innerText = (limit / 1000) + 'k'; 
-            document.getElementById('limite-hierro').innerText = (limit / 1000) + 'k'; 
-            document.getElementById('limite-comida').innerText = (limit / 1000) + 'k';
+            document.getElementById('limite-madera').innerText = (limit / 1000) + 'k'; document.getElementById('limite-hierro').innerText = (limit / 1000) + 'k'; document.getElementById('limite-comida').innerText = (limit / 1000) + 'k';
             
-            document.getElementById('niv-aserradero').innerText = niv.aserradero; 
-            document.getElementById('niv-mina').innerText = niv.mina; 
-            document.getElementById('niv-granja').innerText = niv.granja; 
-            document.getElementById('niv-almacen').innerText = niv.almacen; 
-            document.getElementById('niv-mercado').innerText = niv.mercado;
-            document.getElementById('niv-cuartel').innerText = niv.cuartel; 
-            document.getElementById('niv-galeria').innerText = niv.galeria; 
-            document.getElementById('niv-establo').innerText = niv.establo; 
-            document.getElementById('niv-academia').innerText = niv.academia; 
-            document.getElementById('niv-muralla').innerText = niv.muralla;
+            document.getElementById('niv-aserradero').innerText = niv.aserradero; document.getElementById('niv-mina').innerText = niv.mina; document.getElementById('niv-granja').innerText = niv.granja; 
+            document.getElementById('niv-almacen').innerText = niv.almacen; document.getElementById('niv-mercado').innerText = niv.mercado;
+            document.getElementById('niv-cuartel').innerText = niv.cuartel; document.getElementById('niv-galeria').innerText = niv.galeria; 
+            document.getElementById('niv-establo').innerText = niv.establo; document.getElementById('niv-academia').innerText = niv.academia; document.getElementById('niv-muralla').innerText = niv.muralla;
             
             document.getElementById('val-bono-def').innerText = niv.muralla * 5;
             
@@ -738,8 +554,17 @@
             document.getElementById('c-m-est').innerText = (niv.establo + 1) * 200; document.getElementById('c-h-est').innerText = (niv.establo + 1) * 200;
             document.getElementById('c-m-aca').innerText = (niv.academia + 1) * 400; document.getElementById('c-h-aca').innerText = (niv.academia + 1) * 400;
 
-            const tAse = (niv.aserradero + 1) * 30; const tMin = (niv.mina + 1) * 30; const tGra = (niv.granja + 1) * 30; const tAlm = (niv.almacen + 1) * 30; const tMer = (niv.mercado + 1) * 30; const tMur = (niv.muralla + 1) * 30;
-            const tCua = (niv.cuartel + 1) * 30; const tGal = (niv.galeria + 1) * 30; const tEst = (niv.establo + 1) * 30; const tAca = (niv.academia + 1) * 30;
+            // Tiempos Exponenciales Lentos
+            const tAse = Math.floor(60 * Math.pow(1.4, niv.aserradero)); 
+            const tMin = Math.floor(60 * Math.pow(1.4, niv.mina)); 
+            const tGra = Math.floor(60 * Math.pow(1.4, niv.granja)); 
+            const tAlm = Math.floor(60 * Math.pow(1.4, niv.almacen)); 
+            const tMer = Math.floor(60 * Math.pow(1.4, niv.mercado)); 
+            const tMur = Math.floor(90 * Math.pow(1.4, niv.muralla));
+            const tCua = Math.floor(90 * Math.pow(1.4, niv.cuartel)); 
+            const tGal = Math.floor(90 * Math.pow(1.4, niv.galeria)); 
+            const tEst = Math.floor(120 * Math.pow(1.4, niv.establo)); 
+            const tAca = Math.floor(180 * Math.pow(1.4, niv.academia));
             
             document.getElementById('t-ase').innerText = tAse; document.getElementById('t-min').innerText = tMin; document.getElementById('t-gra').innerText = tGra; document.getElementById('t-alm').innerText = tAlm; document.getElementById('t-mer').innerText = tMer; document.getElementById('t-mur').innerText = tMur;
             document.getElementById('t-cua').innerText = tCua; document.getElementById('t-gal').innerText = tGal; document.getElementById('t-est').innerText = tEst; document.getElementById('t-aca').innerText = tAca;
@@ -764,14 +589,9 @@
             ];
             
             uis.forEach(edificio => {
-                const boton = document.getElementById(edificio.idBoton); 
-                const texto = document.getElementById(edificio.idTexto);
-                if (upg.b !== "") { 
-                    boton.disabled = true; texto.innerText = "Ocupado"; 
-                } else { 
-                    boton.disabled = edificio.nivelActual >= edificio.maxNivel; 
-                    texto.innerText = edificio.nivelActual === 0 ? "Construir" : (edificio.nivelActual >= edificio.maxNivel ? "Máximo" : "Mejorar"); 
-                }
+                const boton = document.getElementById(edificio.idBoton); const texto = document.getElementById(edificio.idTexto);
+                if (upg.b !== "") { boton.disabled = true; texto.innerText = "Ocupado"; } 
+                else { boton.disabled = edificio.nivelActual >= edificio.maxNivel; texto.innerText = edificio.nivelActual === 0 ? "Construir" : (edificio.nivelActual >= edificio.maxNivel ? "Máximo" : "Mejorar"); }
             });
 
             document.getElementById('btn-up-almacen').onclick = () => { procesarCompraConstruccion('alm', cAlm, cAlmH, 0, tAlm); }; 
@@ -785,10 +605,11 @@
             document.getElementById('btn-up-establo').onclick = () => { procesarCompraConstruccion('est', (niv.establo + 1) * 200, (niv.establo + 1) * 200, 0, tEst); }; 
             document.getElementById('btn-up-academia').onclick = () => { procesarCompraConstruccion('aca', (niv.academia + 1) * 400, (niv.academia + 1) * 400, 0, tAca); };
 
-            const tiempoLan = Math.max(2, Math.floor(10 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tiempoArq = Math.max(3, Math.floor(15 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tiempoCab = Math.max(5, Math.floor(25 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tiempoEli = Math.max(10, Math.floor(40 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            // Tiempos Base de Entrenamiento Nuevos (Minutos base convertidos a segundos base)
+            const tiempoLan = Math.max(30, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tiempoArq = Math.max(60, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tiempoCab = Math.max(90, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tiempoEli = Math.max(120, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
             document.getElementById('btn-rec-lancero').onclick = () => { procesarCompraEntrenamiento('lan', 50 * mult, 30 * mult, 10 * mult, tiempoLan * mult, mult); };
             document.getElementById('btn-rec-arquero').onclick = () => { procesarCompraEntrenamiento('arq', 70 * mult, 40 * mult, 20 * mult, tiempoArq * mult, mult); };
@@ -796,9 +617,7 @@
             document.getElementById('btn-rec-elite').onclick = () => { procesarCompraEntrenamiento('eli', 200 * mult, 150 * mult, 100 * mult, tiempoEli * mult, mult); };
         }
 
-        // ==========================================
         // 8. FUNCIONES DE GASTO
-        // ==========================================
         function procesarCompraConstruccion(edificioId, costeMadera, costeHierro, costeComida, tiempoEspera) {
             if (upg.b !== "") return mostrarAviso("El constructor ya está ocupado.");
             if (currentRes.m < costeMadera || currentRes.h < costeHierro || currentRes.c < costeComida) return mostrarAviso("Faltan recursos en las arcas para esta construcción.");
@@ -856,9 +675,7 @@
             });
         };
 
-        // ==========================================
         // 9. RELOJ DEL JUEGO (MOTOR)
-        // ==========================================
         function bucleDeJuego() {
             if(!miUid) return; 
 
@@ -889,11 +706,11 @@
                 }
             } else { pConstruccion.style.display = 'none'; }
 
-            // Entrenamiento Activo
-            const tLan = Math.max(2, Math.floor(10 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tArq = Math.max(3, Math.floor(15 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tCab = Math.max(5, Math.floor(25 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tEli = Math.max(10, Math.floor(40 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            // Entrenamiento Activo (Base Times Tweak)
+            const tLan = Math.max(30, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tArq = Math.max(60, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tCab = Math.max(90, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tEli = Math.max(120, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
             function procQ(tipo, tFin, cant, idBoton, tBase, rM, rH, rC, nomTropa) {
                 const b = document.getElementById(idBoton);
@@ -903,10 +720,7 @@
                         if (tipo === 'arq') { tropas.arqueros += cant; ent.arq = 0; }
                         if (tipo === 'cab') { tropas.caballos += cant; ent.cab = 0; } 
                         if (tipo === 'eli') { tropas.elite += cant; ent.eli = 0; }
-                        update(ref(db, 'usuarios/' + miUid), { 
-                            lanceros: tropas.lanceros, arqueros: tropas.arqueros, caballos: tropas.caballos, elite: tropas.elite, 
-                            entr_lan: ent.lan, entr_arq: ent.arq, entr_cab: ent.cab, entr_eli: ent.eli 
-                        });
+                        update(ref(db, 'usuarios/' + miUid), { lanceros: tropas.lanceros, arqueros: tropas.arqueros, caballos: tropas.caballos, elite: tropas.elite, entr_lan: ent.lan, entr_arq: ent.arq, entr_cab: ent.cab, entr_eli: ent.eli });
                     } else { 
                         b.innerText = `⏳ ${cant}x... ${Math.ceil((tFin - ahora) / 1000)}s`; b.disabled = true; 
                     }
@@ -929,7 +743,7 @@
                 
                 if (ahora >= mov.fin) {
                     if (mov.est === "ida") {
-                        mov.est = "procesando"; // Evitar bucle múltiple
+                        mov.est = "procesando"; 
                         
                         const miFuerza = (mov.lan * STATS.lan.f) + (mov.arq * STATS.arq.f) + (mov.cab * STATS.cab.f) + (mov.eli * STATS.eli.f);
                         const rutaEnemiga = mov.isR ? ref(db, 'ruinas/' + mov.oId) : ref(db, 'usuarios/' + mov.oId);
@@ -1005,9 +819,7 @@
             } else { pMovimiento.style.display = 'none'; }
         }
 
-        // ==========================================
-        // 10. MAPA, ATAQUE Y RANKING
-        // ==========================================
+        // 10. MAPA Y ATAQUE
         function cargarMapa() {
             const listaDiv = document.getElementById('lista-jugadores'); const visualDiv = document.getElementById('mapa-visual');
             listaDiv.innerHTML = "<p>Enviando exploradores...</p>"; visualDiv.innerHTML = "";
@@ -1016,12 +828,12 @@
                 listaDiv.innerHTML = "";
                 snapUsuarios.forEach(hijo => {
                     const u = hijo.val(); const uId = hijo.key;
-                    // No mostrar a los jugadores baneados en el mapa
                     if (u.baneado) return;
 
                     const tag = u.tribu ? `[${u.tribu}] ` : ""; const nombreVisual = tag + (u.nombre_aldea || u.nombre); const esAliado = miAlianza !== "" && u.tribu === miAlianza;
                     
-                    const pinVisual = document.createElement('div'); pinVisual.className = 'aldea-pin'; pinVisual.style.left = u.coord_x + '%'; pinVisual.style.top = u.coord_y + '%';
+                    const pinVisual = document.createElement('div'); pinVisual.className = 'aldea-pin'; 
+                    pinVisual.style.left = (u.coord_x / 5) + '%'; pinVisual.style.top = (u.coord_y / 5) + '%';
                     
                     if (uId === miUid) { pinVisual.classList.add('aldea-mia'); } 
                     else { 
@@ -1040,7 +852,8 @@
                     if(snapRuinas.exists()) {
                         snapRuinas.forEach(hijoRuina => {
                             const r = hijoRuina.val(); const rId = hijoRuina.key;
-                            const pinRuina = document.createElement('div'); pinRuina.className = 'aldea-pin ruina-pin'; pinRuina.style.left = r.x + '%'; pinRuina.style.top = r.y + '%'; 
+                            const pinRuina = document.createElement('div'); pinRuina.className = 'aldea-pin ruina-pin'; 
+                            pinRuina.style.left = (r.x / 5) + '%'; pinRuina.style.top = (r.y / 5) + '%'; 
                             pinRuina.onclick = () => { abrirVentanaAtaque(rId, "Ruina Antigua", r.x, r.y, true); }; visualDiv.appendChild(pinRuina);
                             listaDiv.innerHTML += `<div class="jugador-card" style="border-color:#7f8c8d;"><b style="color:#bdc3c7">🔘 Ruina Antigua</b><br>📍 [${r.x}|${r.y}] <button onclick="abrirVentanaAtaque('${rId}','Ruina Antigua',${r.x},${r.y},true)" class="btn-gris" style="padding:5px; width:auto; float:right;">Saquear</button></div>`;
                         });
@@ -1077,15 +890,14 @@
         document.getElementById('btn-cancelar-ataque').onclick = () => { document.getElementById('modal-ataque').style.display = 'none'; };
 
         function cargarRanking(modoClasificacion) {
-            document.getElementById('btn-rank-jugadores').className = modoClasificacion === 'jugadores' ? 'btn-azul' : 'btn-gris'; 
-            document.getElementById('btn-rank-tribus').className = modoClasificacion === 'tribus' ? 'btn-azul' : 'btn-gris';
+            document.getElementById('btn-rank-jugadores').className = modoClasificacion === 'jugadores' ? 'btn-azul' : 'btn-gris'; document.getElementById('btn-rank-tribus').className = modoClasificacion === 'tribus' ? 'btn-azul' : 'btn-gris';
             const listadoHtml = document.getElementById('lista-ranking'); listadoHtml.innerHTML = "<p>Calculando el poder del reino...</p>";
             
             get(ref(db, 'usuarios')).then((snapRanking) => {
                 let listaJugadores = []; let listaTribus = {};
                 snapRanking.forEach((nodoHijo) => {
                     const jug = nodoHijo.val(); 
-                    if(jug.baneado) return; // No contar a los baneados en el ranking
+                    if(jug.baneado) return;
 
                     const puntosTotales = (jug.nivel_aserradero || 0) + (jug.nivel_mina || 0) + (jug.nivel_granja || 0) + (jug.nivel_almacen || 0) + (jug.nivel_cuartel || 0) + (jug.nivel_galeria || 0) + (jug.nivel_establo || 0) + (jug.nivel_academia || 0) + (jug.nivel_muralla || 0) + (jug.nivel_mercado || 0);
                     const nombreFormateado = jug.tribu ? `[${jug.tribu}] ${jug.nombre_aldea || jug.nombre}` : (jug.nombre_aldea || jug.nombre);
