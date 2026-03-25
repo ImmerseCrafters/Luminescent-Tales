@@ -224,7 +224,9 @@
                 <button id="btn-abandonar-tribu" class="btn-rojo" style="margin-bottom: 15px;">Romper Juramento</button>
 
                 <h4 style="margin: 15px 0 5px 0; color: #64b5f6; border-top: 1px solid #5d4037; padding-top:10px;">💬 Mensajeros</h4>
-                <div id="chat-box" class="chat-container"><p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Enviando cuervos...</p></div>
+                <div id="chat-box" class="chat-container">
+                    <p style='color: #7f8c8d; text-align: center; margin-top: auto; margin-bottom: auto;'>Enviando cuervos...</p>
+                </div>
                 <div style="display: flex; gap: 5px;">
                     <input type="text" id="input-chat" placeholder="Escribe a tus hermanos..." style="width: 75%; margin: 0; padding: 8px;">
                     <button id="btn-enviar-chat" class="btn-azul" style="width: 25%; margin: 0; padding: 8px;">Enviar</button>
@@ -249,7 +251,7 @@
         <div id="ajustes-tab" style="display: none;">
             <h3 style="color: #bcaaa4; margin-top: 0;">⚙️ Configuración del Reino</h3>
             
-            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4><p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.40</p></div>
+            <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">ℹ️ Sobre la Leyenda</h4><p style="font-size: 12px; color: #d7ccc8; margin: 0;">Mundo: Luminescent Tales<br>Época Actual: v1.42 (Tiempos Reales)</p></div>
             <div class="seccion-panel"><h4 style="margin: 0 0 5px 0;">Sello de Identidad</h4><input type="text" id="nuevo-nombre-aldea" placeholder="Renombrar provincia"><button id="btn-renombrar" class="btn-naranja">Grabar Nuevo Nombre</button></div>
             <div class="seccion-panel"><button id="btn-logout" class="btn-gris">Dormir (Cerrar Sesión)</button></div>
             
@@ -554,17 +556,17 @@
             document.getElementById('c-m-est').innerText = (niv.establo + 1) * 200; document.getElementById('c-h-est').innerText = (niv.establo + 1) * 200;
             document.getElementById('c-m-aca').innerText = (niv.academia + 1) * 400; document.getElementById('c-h-aca').innerText = (niv.academia + 1) * 400;
 
-            // Tiempos Exponenciales Lentos
-            const tAse = Math.floor(60 * Math.pow(1.4, niv.aserradero)); 
-            const tMin = Math.floor(60 * Math.pow(1.4, niv.mina)); 
-            const tGra = Math.floor(60 * Math.pow(1.4, niv.granja)); 
-            const tAlm = Math.floor(60 * Math.pow(1.4, niv.almacen)); 
-            const tMer = Math.floor(60 * Math.pow(1.4, niv.mercado)); 
-            const tMur = Math.floor(90 * Math.pow(1.4, niv.muralla));
-            const tCua = Math.floor(90 * Math.pow(1.4, niv.cuartel)); 
-            const tGal = Math.floor(90 * Math.pow(1.4, niv.galeria)); 
-            const tEst = Math.floor(120 * Math.pow(1.4, niv.establo)); 
-            const tAca = Math.floor(180 * Math.pow(1.4, niv.academia));
+            // Tiempos Exponenciales Lentos (Nuevos multiplicadores para el MMORTS Lento)
+            const tAse = Math.floor(300 * Math.pow(1.5, niv.aserradero)); 
+            const tMin = Math.floor(300 * Math.pow(1.5, niv.mina)); 
+            const tGra = Math.floor(300 * Math.pow(1.5, niv.granja)); 
+            const tAlm = Math.floor(300 * Math.pow(1.5, niv.almacen)); 
+            const tMer = Math.floor(300 * Math.pow(1.5, niv.mercado)); 
+            const tMur = Math.floor(600 * Math.pow(1.5, niv.muralla));
+            const tCua = Math.floor(600 * Math.pow(1.5, niv.cuartel)); 
+            const tGal = Math.floor(600 * Math.pow(1.5, niv.galeria)); 
+            const tEst = Math.floor(900 * Math.pow(1.5, niv.establo)); 
+            const tAca = Math.floor(1800 * Math.pow(1.5, niv.academia));
             
             document.getElementById('t-ase').innerText = tAse; document.getElementById('t-min').innerText = tMin; document.getElementById('t-gra').innerText = tGra; document.getElementById('t-alm').innerText = tAlm; document.getElementById('t-mer').innerText = tMer; document.getElementById('t-mur').innerText = tMur;
             document.getElementById('t-cua').innerText = tCua; document.getElementById('t-gal').innerText = tGal; document.getElementById('t-est').innerText = tEst; document.getElementById('t-aca').innerText = tAca;
@@ -605,11 +607,11 @@
             document.getElementById('btn-up-establo').onclick = () => { procesarCompraConstruccion('est', (niv.establo + 1) * 200, (niv.establo + 1) * 200, 0, tEst); }; 
             document.getElementById('btn-up-academia').onclick = () => { procesarCompraConstruccion('aca', (niv.academia + 1) * 400, (niv.academia + 1) * 400, 0, tAca); };
 
-            // Tiempos Base de Entrenamiento Nuevos (Minutos base convertidos a segundos base)
-            const tiempoLan = Math.max(30, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tiempoArq = Math.max(60, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tiempoCab = Math.max(90, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tiempoEli = Math.max(120, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            // Tiempos Base de Entrenamiento
+            const tiempoLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tiempoArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tiempoCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tiempoEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
             document.getElementById('btn-rec-lancero').onclick = () => { procesarCompraEntrenamiento('lan', 50 * mult, 30 * mult, 10 * mult, tiempoLan * mult, mult); };
             document.getElementById('btn-rec-arquero').onclick = () => { procesarCompraEntrenamiento('arq', 70 * mult, 40 * mult, 20 * mult, tiempoArq * mult, mult); };
@@ -706,11 +708,11 @@
                 }
             } else { pConstruccion.style.display = 'none'; }
 
-            // Entrenamiento Activo (Base Times Tweak)
-            const tLan = Math.max(30, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
-            const tArq = Math.max(60, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
-            const tCab = Math.max(90, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
-            const tEli = Math.max(120, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
+            // Entrenamiento Activo
+            const tLan = Math.max(300, Math.floor(300 * Math.pow(0.85, Math.max(0, niv.cuartel - 1)))); 
+            const tArq = Math.max(600, Math.floor(600 * Math.pow(0.85, Math.max(0, niv.galeria - 1))));
+            const tCab = Math.max(900, Math.floor(900 * Math.pow(0.85, Math.max(0, niv.establo - 1)))); 
+            const tEli = Math.max(1200, Math.floor(1200 * Math.pow(0.85, Math.max(0, niv.academia - 1))));
 
             function procQ(tipo, tFin, cant, idBoton, tBase, rM, rH, rC, nomTropa) {
                 const b = document.getElementById(idBoton);
@@ -819,7 +821,7 @@
             } else { pMovimiento.style.display = 'none'; }
         }
 
-        // 10. MAPA Y ATAQUE
+        // 10. MAPA Y ATAQUE (Mundo 500x500 con tiempo realista)
         function cargarMapa() {
             const listaDiv = document.getElementById('lista-jugadores'); const visualDiv = document.getElementById('mapa-visual');
             listaDiv.innerHTML = "<p>Enviando exploradores...</p>"; visualDiv.innerHTML = "";
@@ -828,7 +830,7 @@
                 listaDiv.innerHTML = "";
                 snapUsuarios.forEach(hijo => {
                     const u = hijo.val(); const uId = hijo.key;
-                    if (u.baneado) return;
+                    if (u.baneado) return; // Ocultar exiliados
 
                     const tag = u.tribu ? `[${u.tribu}] ` : ""; const nombreVisual = tag + (u.nombre_aldea || u.nombre); const esAliado = miAlianza !== "" && u.tribu === miAlianza;
                     
@@ -868,8 +870,11 @@
             objId = idEnemigo; objN = nombreEnemigo; objR = esRuin;
             
             const distanciaCalculada = Math.sqrt(Math.pow(xEnemigo - miX, 2) + Math.pow(yEnemigo - miY, 2));
-            tViaje = Math.max(5, Math.floor(distanciaCalculada * 3));
             
+            // ================== NUEVO: 1 MINUTO POR PUNTO DE DISTANCIA ==================
+            tViaje = Math.max(60, Math.floor(distanciaCalculada * 60));
+            // ============================================================================
+
             document.getElementById('modal-nombre-enemigo').innerText = "Declarar Guerra: " + nombreEnemigo; document.getElementById('modal-tiempo').innerText = tViaje; document.getElementById('modal-distancia').innerText = Math.floor(distanciaCalculada);
             document.getElementById('max-lan').innerText = tropas.lanceros; document.getElementById('send-lan').max = tropas.lanceros; document.getElementById('send-lan').value = 0;
             document.getElementById('max-arq').innerText = tropas.arqueros; document.getElementById('send-arq').max = tropas.arqueros; document.getElementById('send-arq').value = 0;
